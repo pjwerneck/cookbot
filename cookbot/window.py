@@ -1,30 +1,16 @@
 # -*- coding: utf-8 -*-
-
-import commands
-import gtk
-import itertools
-import math
 import os
-import re
-import time
-import wnck
 import sys
+import time
 
-from contextlib import contextmanager
-from functools import wraps
-
+import gtk
+import wnck
+from PIL import Image
 from pykeyboard import PyKeyboard
 
-from PIL import Image
-from PIL import ImageOps
-
+from cookbot.colorops import rgb_to_hsv, rgb_delta, delta_hist
 from cookbot.ocr import OCR
-from cookbot.recipes import RECIPES, FOODS, FINISH_AT, COOKING_TIME
-from cookbot.interpreter import parser
 
-from cookbot.colorops import rgb_to_hsv
-
-from StringIO import StringIO
 
 if sys.platform.startswith('linux'):
     import ctypes
@@ -36,7 +22,15 @@ ACTIVE_BOX = [(199, 72 + i*60, 247, 72 + i*60 + 56) for i in xrange(8)]
 
 OUTLINES = [(248, 72 + i*60, 249, 72 + i*60 + 56) for i in xrange(8)]
 
-CANARY_PX = (481, 36)
+
+RECIPE_TITLE = (276, 560, 880, 604)
+
+RECIPE_TEXT = (276, 600, 1027, 680)
+
+TICKET_NO = (912, 576, 1009, 599)
+
+#CANARY_PX = (481, 36)
+CANARY_PX = (66, 679)
 
 ROSTER = [(24, 90),
           (24, 164),
@@ -60,7 +54,8 @@ def yellow(im):
 
 
 class BaseWindow(object):
-    def __init__(self):
+    def __init__(self, **opts):
+        self._opts = opts
 
         self._window = None
         self._img = None
@@ -71,6 +66,7 @@ class BaseWindow(object):
         self._orders = None
 
         self.k = PyKeyboard()
+        self.ocr = OCR()
 
     def get_window(self):
         raise NotImplementedError
@@ -108,7 +104,6 @@ class BaseWindow(object):
         t = time.time()
 
         self._img = img or self.capture()
-        self._ocr = OCR(self._img)
 
         self._title = None
         self._text = None
@@ -117,22 +112,28 @@ class BaseWindow(object):
         self._active = None
 
     def get_title(self):
-        return self._ocr.get_title()
+        # returns the recipe title
+        return self.ocr.get_line(self._img.crop(RECIPE_TITLE))
 
     def get_text(self):
-        return self._ocr.get_text()
+        # returns the recipe text
+        return self.ocr.get_text(self._img.crop(RECIPE_TEXT))
+
+    def get_ticket_no(self):
+        # returns the number of the ticket, or None
+        return self.ocr.get_digits(self._img.crop(TICKET_NO), contrast=True)
 
     def get_orders(self):
+        # returns the complete status for each slot
         n = range(1, 9)
         roster = self.get_roster()
         outlines, x_factor = self.get_outlines(roster)
 
         return zip(n, roster, outlines, x_factor)
 
-    def get_ticket_no(self):
-        return self._ocr.get_ticket_no()
-
     def get_outlines(self, roster=None):
+        # returns the actual state for each slot, and how far they
+        # receded to the left
         if roster is None:
             roster = [True] * 8
 
@@ -177,38 +178,45 @@ class BaseWindow(object):
         return outlines, x_factor
 
     def get_roster(self):
-        roster = [cdist(self._img.getpixel(b), (255, 255, 255)) < 1 for b in ROSTER]
+        # returns the state for each slot, if highlighted or not
+        roster = [rgb_delta(self._img.getpixel(b), (255, 255, 255)) < 1 for b in ROSTER]
         assert len(roster) == 8
         return roster
 
     @property
     def canary(self):
+        # this is a 'canary' pixel that should be immutable during normal
+        # gameplay. This is used to avoid doing something wrong during
+        # the screen flashes, like Rush Hour.
         return self._img.getpixel(CANARY_PX)
 
     def at_kitchen(self):
+        # true if at the kitchen preparation screen
         return self._img.getpixel((840, 164)) == (37, 44, 139)
 
     def at_grill(self):
+        # true if at the grill/boiler screen
         p = self._img.getpixel((394, 283))
         return p in {(134, 134, 132), (106, 106, 104), (95, 94, 100), (85, 83, 89)}
 
     def key(self, k, d=0.1):
-        print 'Key:', k
         self.k.press_key(k)
-        time.sleep(d-0.05)
+        time.sleep(self._opts['key_delay'])
         self.k.release_key(k)
-        time.sleep(d+0.05)
+        time.sleep(self._opts['key_delay'])
 
     def escape(self):
+        # used to pause the game on bot errors
         self.key(self.k.escape_key)
 
     def change_recipe(self):
+        # for testing recipes. Change to the next recipe.
         self.key(self.k.control_key)
-        time.sleep(0.1)
+        time.sleep(self._opts['loop_delay'])
 
     def order_ok(self):
+        # for testing recipes. Check if the order was successul.
         SMILEY_BBOX = (61, 72, 221, 128)
-
         return max([yellow(self.capture(SMILEY_BBOX)) for x in xrange(20)]) > 800
 
 
@@ -227,22 +235,22 @@ def _identify_outline(im):
     if f < 0.8:
         return None
 
-    if cdist(c, (0, 0, 0)) < 1:
+    if rgb_delta(c, (0, 0, 0)) < 1:
         return 'new'
 
-    if cdist(c, (79, 79, 79)) < 1:
+    if rgb_delta(c, (79, 79, 79)) < 1:
         return 'active'
 
-    if cdist(c, (114, 114, 114)) < 1:
+    if rgb_delta(c, (114, 114, 114)) < 1:
         return 'cooking'
 
-    if cdist(c, (190, 0, 0)) < 1:
+    if rgb_delta(c, (190, 0, 0)) < 1:
         return 'burning'
 
-    if cdist(c, (255, 255, 64)) < 1:
+    if rgb_delta(c, (255, 255, 64)) < 1:
         return 'ready'
 
-    if cdist(c, (106, 255, 255)) < 1:
+    if rgb_delta(c, (106, 255, 255)) < 1:
         return 'waiting'
 
     h, s, v = rgb_to_hsv(*c)
@@ -254,23 +262,6 @@ def _identify_outline(im):
         return 'ready'
 
     #raise RuntimeError("Cannot identify outline")
-
-
-
-
-def cdist(a, b):
-    # color distance
-    aR, aG, aB = a
-    bR, bG, bB = b
-
-    rmean = (aR + bR) / 2
-
-    r = aR - bR
-    g = aG - bG
-    b = aB - bB
-
-    return math.sqrt((((512 + rmean)*r*r) >> 8) + 4*g*g + (((767 - rmean) * b * b) >> 8))
-
 
 
 class GTKWindow(BaseWindow):

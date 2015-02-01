@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import re
+import time
+import random
+import string
+
+from cookbot.colorops import origin_dist
 
 
 RECIPES = {"burger": {"the original": "mlbctE",
@@ -33,7 +38,7 @@ RECIPES = {"burger": {"the original": "mlbctE",
 		      "the holy burger": "mlosE",
 		      "chubigans special": "mlbcsE",
 		      "the double melt": "mmcsE",
-                      
+
                       "the chick-a": "kpE",
                       "the chick-a deluxe": "kltpE",
                       "the chick-a surpreme": "klbctpE",
@@ -44,8 +49,8 @@ RECIPES = {"burger": {"the original": "mlbctE",
                       "the mix burger": "kmlctE",
                       "the american": "kmbcosE",
                       "the everything": "mklpbocstE",
-                      
-                      
+
+
 		     },
 	   "salad": {"house salad": "rcbE",
 		     "cheesy leaves": "rcE",
@@ -73,7 +78,7 @@ RECIPES = {"burger": {"the original": "mlbctE",
 		     "vinaigrette classic": "vcobmE",
 		    },
 
-           
+
            "corn_dog": {"the classic corn dog": "kmE",
                         "the red dog": "kE",
                         "the yellow dog": "mE",
@@ -118,8 +123,8 @@ RECIPES = {"burger": {"the original": "mlbctE",
                      "the mysteries": "eeetsgggE",
                      "royal debut": "tttsyyygE",
                      "crunchy plate": "uuummmygE",
-                     
-                     
+
+
                      },
 
            "baked_potato": {"classic baked potato": "csyE",
@@ -198,7 +203,7 @@ RECIPES = {"burger": {"the original": "mlbctE",
                         "lite maple classic": "ppmE",
                         "the lonely pancake": "pE",
                         "triple berry blue": "ppplbE",
-                        "triple pecan stack": "pppebE",                        
+                        "triple pecan stack": "pppebE",
                         'blue double stack': 'pplbE',
                         'double desert': 'ppbE',
                         'double strawberry': 'ppsbE',
@@ -242,7 +247,7 @@ RECIPES = {"burger": {"the original": "mlbctE",
                      'tomato & anchovy pizza': 'tcaoE',
                      'tomato & pineapple pizza': 'tcioE',
                      'the all-meat-tomato pizza': 'tcpsbahoE',
-                     
+
                      'pesto pepperoni pizza': 'gcpE',
                      'all veggie pesto pizza': 'gcuvnioE',
                      'super deluxe pesto pizza': 'gcaphsbuvnioE',
@@ -253,10 +258,10 @@ RECIPES = {"burger": {"the original": "mlbctE",
                      'cheesy pesto pizza': 'gcE',
                      'piggy pesto pizza': 'gcbhunE',
                      'italian pesto pizza': 'gcpuvnoE',
-                     
+
                      },
 
-           
+
            "pretzel": {"the buttery curves": "bE",
                        "the dry twister": "E",
                        "the classic pretzel": "sbE",
@@ -330,7 +335,7 @@ RECIPES = {"burger": {"the original": "mlbctE",
                     "suino stew": "hwc.lDDD.zDDD.go.E",
                     },
 
-           
+
            'soda': {'jumbo cola': 'UUUDiE',
                     'jumbo cola (no ice)': 'UUUDE',
                     'jumbo cola (no ice) w/flavor blast': 'UUUDfE',
@@ -375,7 +380,7 @@ RECIPES = {"burger": {"the original": "mlbctE",
                     'small water w/flavor blast': 'RRRDifE',
                     },
 
-           
+
            "sopapillas": {"delicious lite sopapillas": "D[2.5].pE",
                           "delicious sopapillas": "D[2.5].psE",
                           },
@@ -403,19 +408,7 @@ RECIPES = {"burger": {"the original": "mlbctE",
                      "west texas steak": "ssjjppbbddhhE",
                      },
 
-           "dishes": {"work ticket (dishes)": '(LRU)*3 .[0.5]',                      
-                      },
 
-           "trash": {"work ticket (trash)": "(U.R)*3 .s .[0.5]",
-                     },
-
-           "rodents": {"work ticket (rodents)": "R.D.c.s.[0.5]",
-                       },
-
-           "toilet": {"work ticket (clean)": "D.s.[0.5]",
-                      },
-
-           
            "beer": {"the rich brewsky": "D[1.4].E",
                     "the brewsky": "D[1.4].E",
                     },
@@ -432,8 +425,8 @@ RECIPES = {"burger": {"the original": "mlbctE",
                               "classic chicken breast": "t*6.sE",
                               "rich chicken breast": "t*6.sE",
                               },
-           
-           
+
+
            "fried_chicken": {"golden fried chicken": "D[3.5].pE",
                              "greasy fried chicken": "D[3.5].pE",
                              },
@@ -473,7 +466,7 @@ RECIPES = {"burger": {"the original": "mlbctE",
                            "odessa kabob": "mzsmzumzE",
                            "kabob special": "tgputgpuE",
                            "tomato kabob": "tmutkutzE",
-                           
+
                            },
 
            "fried_rice": {"sour fried rice": "feoE",
@@ -483,8 +476,9 @@ RECIPES = {"burger": {"the original": "mlbctE",
                           "crunchy white rice": "feonE",
                           "classic white rice": "wpceoE",
                           "yellow white rice": "wenE",
+                          "lite rice": "wnrE",
                           },
-           
+
            "breakfast_sandwich": {'double am': 'esbE',
                                   'egg biscuit': 'eE',
                                   'morning fuel': 'sbE',
@@ -518,7 +512,7 @@ RECIPES = {"burger": {"the original": "mlbctE",
                        "tangy garlic": "agE",
                        "ginger cocktail": "cgE",
                        "ginger lobster": "gE",
-                      
+
                        },
 
            "enchiladas": {"junior stack": "DUtcE",
@@ -542,18 +536,33 @@ RECIPES = {"burger": {"the original": "mlbctE",
                            "golden hash browns": "D[2.1] psE",
 
                            },
-           
+
            "coffee": {"black coffee": 'DE',
                       "coffee with cream": 'DcE',
-                      "coffee with sugar": 'Ds*{0}E|([1-5]).*?sugar',
-                      "fully loaded": 'Dcs*{0}E|([1-5]).*?sugar',
+                      "coffee with sugar": 'Ds*{([1-5]).*?sugar} E',
+                      "fully loaded": 'Dcs*{([1-5]).*?sugar} E',
                       },
 
-           "metagame": {"battle kitchen upgrade": ".[1]",
+           "metagame": {"battle kitchen upgrade": "$run_battle_kitchen_upgrade",
                         "check out my picture": "t",
-                        "textin my sweetie": "",
-                        }
-           
+                        "textin my sweetie": ".[1]",
+                        },
+
+           "robbery" : {"robbery (witness criminal description)": "$run_robbery",
+                        },
+
+           "dishes": {"work ticket (dishes)": "$run_dishes", #'(LRU)*3 .[0.5]',
+                      },
+
+           "trash": {"work ticket (trash)": "$run_trash", #"(U.R)*3 .s .[0.5]",
+                     },
+
+           "rodents": {"work ticket (rodents)": "R.D.c.s.[0.5]",
+                       },
+
+           "toilet": {"work ticket (clean)": "D.s.[0.5]",
+                      },
+
            }
 
 
@@ -614,7 +623,7 @@ FINISH_AT = {"burger": "p",
              "hash_browns": "p",
              "coffee": "p",
              }
-             
+
 
 COOKING_TIME = {'burger_grill': 9,
                 'steak': 20,
@@ -634,7 +643,7 @@ COOKING_TIME = {'burger_grill': 9,
 
 
 class RecipesBase(object):
-    def __init__(self):
+    def __init__(self, **opts):
         pass
 
     def get_recipe(self, food, window):
@@ -643,31 +652,128 @@ class RecipesBase(object):
         if '|' in recipe:
 
             recipe, expr = recipe.split('|')
-            
+
             g = re.search(expr, window.text)
 
             if g is None:
                 return
-            
+
             recipe = recipe.format(*g.groups())
+
+        if '$' in recipe:
+            recipe =  getattr(self, recipe[1:])(food, window)
 
         return recipe
 
+    def run_robbery(self, food, window):
+        text = window.text
+        text = text.translate(string.maketrans(string.punctuation, ' ' * len(string.punctuation)))
+        tokens = text.split()
 
-if __name__ == '__main__':
+        nouns = {'hair': {'bald': 'h', 'sexy': 'hh', 'spiked': 'hhh', 'poofy': 'hhhh'},
+                 'eyes': {'normal': 'y', 'crazy': 'yy', 'sexy': 'yyy', 'beady': 'yyyy'},
+                 'ears': {'normal': 'e', 'round': 'ee', 'long': 'eee', 'tiny': 'eeee'},
+                 'nose': {'crooked': 'n', 'normal': 'nn', 'fancy': 'nnn'},
+                 'lips': {'long': 'l', 'small': 'll', 'sexy': 'lll'},
+                 'facial_hair': {'mustache': 'f', 'beard': 'ff', 'fuzz': 'fff'},
+                 }
 
-    d = []
+        adjectives = {'sexy', 'spiked', 'poofy', 'normal', 'crazy', 'beady',
+                      'round', 'long', 'tiny', 'crooked', 'fancy', 'small'}
 
-    from tabulate import tabulate
-    
-    for food, recipes in RECIPES.iteritems():
-        finish = 'prep' if FINISH_AT.get(food, 'p') == 'p' else 'cook'
-        time = COOKING_TIME.get(food, 0)
-        
-        for name, recipe in recipes.iteritems():
-            d.append((food, name, finish, time, recipe, ''))
+        reverse_match = {'bald': 'hair',
+                         'mustache': 'facial_hair',
+                         'beard': 'facial_hair',
+                         'fuzz': 'facial_hair'}
 
-    d.sort()
+        current_jj = None
+        match = {k: [] for k in nouns}
+        match['facial_hair'] = []
 
-            
-    print tabulate(d, ('food', 'name', 'ready', 'dT', 'recipe', 'expr'), tablefmt="simple")
+        tokens = text.replace(',', '').split()
+
+        for word in tokens:
+            if word in reverse_match:
+                v = reverse_match[word]
+                match[v].append(word)
+
+            elif word in adjectives:
+                current_jj = word
+
+            elif word in nouns:
+                match[word].append(current_jj)
+
+        assert all(match.values()), match
+
+        s = ''
+
+        for k, v in match.iteritems():
+            for x in v:
+                s += nouns[k][x]
+
+
+            if k == 'facial_hair':
+                if 'mustache' in v and 'beard' in v:
+                    s += 'f'
+
+        s += 'E'
+
+        return s
+
+    def run_dishes(self, food, window):
+        bbox = (873, 107, 1124, 223)
+
+        while window.at_kitchen():
+            im = window._img.crop(bbox)
+            h = int(origin_dist(im, (157, 24, 24)))
+
+            if h == 54644:
+                window.key(window.k.left_key)
+
+            elif h == 312328:
+                window.key(window.k.right_key)
+
+            elif h == 126311:
+                window.key(window.k.up_key)
+
+            window.refresh()
+
+
+    def run_trash(self, food, window):
+        bbox = (873, 107, 1124, 223)
+
+        while window.at_kitchen():
+            im = window._img.crop(bbox)
+            h = int(origin_dist(im, (157, 24, 24)))
+
+            if h == 54862:
+                window.key(window.k.up_key)
+
+            elif h == 312328:
+                window.key(window.k.right_key)
+
+            elif h == 136091:
+                window.key('s')
+
+            window.refresh()
+
+
+    def run_battle_kitchen_upgrade(self, food, window):
+        img = window._img
+
+        top_im = img.crop((420, 290, 620, 322))
+        bot_im = img.crop((420, 442, 620, 474))
+
+        top_text = window.ocr.get_line(top_im)
+        bot_text = window.ocr.get_line(bot_im)
+
+        # if there's an upgrade, choose it
+        if 'upgrade' in top_text:
+            return 'z'
+
+        if 'upgrade' in bot_text:
+            return 'x'
+
+        # othwerise, choose one randomly
+
+        return random.choice('zx')

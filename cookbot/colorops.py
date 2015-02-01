@@ -3,7 +3,7 @@ from __future__ import division
 
 import colorsys
 import math
-
+import itertools
 
 # Conversions
 
@@ -109,4 +109,21 @@ def rgb_delta(rgb1, rgb2):
 
     return math.sqrt(f)
 
+
+def delta_hist(ha, hb):
+    n = len(ha)
+
+    return math.sqrt(sum((a - b) ** 2 for (a, b) in zip(ha, hb)) / n)
+
+
+def histx(im):
+    h = im.histogram()
+    return math.sqrt(sum([(x**2) * (i+1) for (i, x) in enumerate(h)]) / len(h))
+
+
+def origin_dist(im, color):
+    # this is used to identify active red buttons in the panel
+    w, h = im.size
+
+    return sum(math.sqrt(sum(map(lambda x: pow(x, 2), divmod(i, w)))) for (i, p) in enumerate(im.getdata()) if p == color)
 

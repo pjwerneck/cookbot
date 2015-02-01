@@ -1,35 +1,19 @@
 # -*- coding: utf-8 -*-
-
-import commands
-import gtk
-import itertools
-import math
-import os
-import re
 import time
-import wnck
+import logging
 
-from contextlib import contextmanager
-
-from cookbot.ocr import OCR
-from cookbot.recipes import RECIPES, FOODS, FINISH_AT, COOKING_TIME, RecipesBase
 from cookbot.interpreter import parser
+from cookbot.recipes import FOODS, FINISH_AT, RecipesBase
 from cookbot.window import GameWindow
-
-from StringIO import StringIO
-
 
 
 class CookBot(object):
     def __init__(self, **opts):
 
-        opts.setdefault('auto_order', False)
-        opts.setdefault('test_recipes', False)
-
         self._opts = opts
 
-        self.window = GameWindow()
-        self.recipes = RecipesBase()
+        self.window = GameWindow(**opts)
+        self.recipes = RecipesBase(**opts)
 
         self._running = False
 
@@ -44,10 +28,8 @@ class CookBot(object):
         self._errors = []
         self._canary = []
 
-    def set_opts(self, **kwargs):
-        self._opts.update(kwargs)
-
     def run(self):
+        logging.info("Starting...")
         self._running = True
 
         self.window.focus()
@@ -55,26 +37,27 @@ class CookBot(object):
         while self._running:
             self.window.refresh()
 
-            if self._opts['auto_order']:
+            if self._opts['auto_order'] and self._opts['canary']:
                 self._canary.append(self.window.canary)
                 del self._canary[:-2]
 
                 if len(set(self._canary)) > 1:
-                    print 'canary died. waiting...'
-                    time.sleep(0.1)
+                    logging.info('Canary died. Waiting respawn...')
+                    time.sleep(self._opts['loop_delay'])
                     continue
 
-            if (self._opts['auto_order'] or self._opts['test_recipes']) and self.window.orders:
-                self.order()
+            if self._opts['auto_order'] or self._opts['test_recipes']:
+                if self.window.orders:
+                    self.order()
 
             if self.window.at_kitchen():
                 self.prepare()
 
-            time.sleep(0.1)
+            time.sleep(self._opts['loop_delay'])
 
     def execute_recipe(self, s):
-        for cmd in parser.parse(s):
-            cmd(self.window)
+        cmd = parser.parse(s)
+        cmd(window=self.window, key_delay=self._opts['key_delay'])
 
         self.check_result('p')
 
@@ -113,7 +96,8 @@ class CookBot(object):
             return 'robbery'
 
         if self._errors:
-            print self.window.text
+            logging.error("Couldn't identify task: %r, %r" % (self.window.title, self.window.text))
+            self.window._img.show()
             raise RuntimeError("Couldn't identify task %r" % self.window.title)
         else:
             self._errors.append(self.window.title)
@@ -122,25 +106,25 @@ class CookBot(object):
         # accept only if seen at least once before and not accepted within the last second
         self._accepted.setdefault(n, time.time())
 
-        if time.time() - self._accepted[n] > 0.5:
-            print 'accept', n
+        if time.time() - self._accepted[n] > 0.1:
+            logging.info("%s accept." % n)
 
             if self._opts['test_recipes']:
                 self.window.change_recipe()
 
             self.window.key(str(n))
             del self._accepted[n]
-            del self._received[n]
             return True
 
         return False
 
     def ready(self, n):
-        # only ready if ready for at least 1 sec
+        # only ready if ready for at least 0.5 sec
         self._ready.setdefault(n, time.time())
 
-        if time.time() - self._ready[n] > 0.5:
-            print 'ready', n
+        #if time.time() - self._ready[n] > 0.1:
+        if 1:
+            logging.info("%s ready." %n)
 
             self.window.key(str(n))
             self.check_result('r')
@@ -153,8 +137,9 @@ class CookBot(object):
         # only ready if ready for at least 1 sec
         self._waiting.setdefault(n, time.time())
 
-        if time.time() - self._waiting[n] > 0.5:
-            print 'finish', n
+        #if time.time() - self._waiting[n] > 0.5:
+        if 1:
+            logging.info("%s finishing." % n)
 
             self.window.key(str(n))
             self.check_result('r')
@@ -167,108 +152,52 @@ class CookBot(object):
     def order(self):
         orders = self.window.orders
 
-        #print [x[2] for x in orders]
-        #print time.time()
+        # first, accept burning and ready orders
+        ready_orders = [o for o in orders if o[2] in {'burning', 'ready'}]
+        for n, active, status, x in ready_orders:
+            self.ready(n)
 
-        seq = ['burning', 'ready', 'waiting', 'new', 'active', 'cooking', None]
-
-        # oldest orders first
-        #orders.sort(key=lambda x: (x[3], self._received.get(x[0], 0)))
-
-        def _key(a):
-            return (seql.index(a[2]), a[3], self._received.get(a[0], 0))
-
-        orders.sort(key=lambda x: seq.index(x[2]))
-
-        for n, active, status, x in orders:
-            if status == 'burning':
-                self.window.key(n)
+        # then, finish waiting orders
+        waiting_orders = [o for o in orders if o[2] == 'waiting']
+        for n, active, status, x in waiting_orders:
+            if self.finish(n):
                 return
 
-            if status == 'ready':
-                if self.ready(n):
-                    return
+        # then, accept new orders
+        if self._opts['auto_accept']:
+            new_orders = [o for o in orders if o[2] == 'new']
 
-            if status == 'waiting':
-                if self.finish(n):
-                    return
+            # rank orders by x_factor
+            new_orders.sort(key=lambda x: x[3])
 
-            if status == 'new':
-                self._received.setdefault(n, time.time())
+            for n, active, status, x in new_orders:
                 if self.accept(n):
                     return
 
 
-
-            ## elif status == 'cooking':
-            ##     self._cooking.setdefault(n, time.time())
-            ##     return
-
-
     def prepare(self):
         log_entry = self._log.get(self.window.title, (0, None))
-        print 'log_entry', self.window.title, log_entry
 
         if time.time() - log_entry[0] < 1:
             if log_entry[1] == self.window.ticket_no:
-                print 'REQUIRE CONFIRMATION'
+                logging.warning("Same order and ticket number. Waiting confirmation...")
                 return
 
         food = self.get_food()
         if food is None:
             return
 
-        print 'Food:', food
+        logging.info("Food: %s" % food)
         del self._errors[:]
 
         recipe = self.recipes.get_recipe(food, self.window)
 
-        print "Recipe:", recipe
+        logging.info("Recipe: %s" % recipe)
 
         if recipe:
             self.execute_recipe(recipe)
 
         self._log[self.window.title] = (time.time(), self.window.ticket_no)
-
-    def run_robbery(self):
-        print 'robbery'
-
-        #self.key(self.k.escape_key)
-
-        text = self.get_text()
-        print text
-        print
-
-        hair = raw_input('hair: ')
-        eyes = raw_input('eyes: ')
-        ears = raw_input('ears: ')
-        nose = raw_input('nose: ')
-        lips = raw_input('lips: ')
-        face = raw_input('face: ')
-
-        HAIR = {'bald': 'h', 'sexy': 'hh', 'spiked': 'hhh', 'poofy': 'hhhh'}
-        EYES = {'normal': 'y', 'crazy': 'yy', 'sexy': 'yyy', 'beady': 'yyyy'}
-        EARS = {'normal': 'e', 'round': 'ee', 'long': 'eee', 'tiny': 'eeee'}
-        NOSE = {'crooked': 'n', 'normal': 'nn', 'fancy': 'nnn'}
-        LIPS = {'long': 'l', 'small': 'll', 'sexy': 'lll'}
-        FACE = {'mustache': 'f', 'beard': 'ff', 'fuzz': 'fff', 'both': 'ffff'}
-
-        s = ''
-
-        s += HAIR.get(hair, '')
-        s += EYES.get(eyes, '')
-        s += EARS.get(ears, '')
-        s += NOSE.get(nose, '')
-        s += LIPS.get(lips, '')
-        s += FACE.get(face, '')
-
-        s += 'E'
-
-        self._window.activate(int(time.time()))
-
-        time.sleep(0.1)
-
-        return s
 
     def check_result(self, w):
         if not self._opts['test_recipes']:
@@ -287,10 +216,10 @@ class CookBot(object):
             return
 
         if self.window.order_ok():
-            print 'Recipe OK!'
+            logging.info("Recipe OK!")
 
         else:
-            print 'Recipe failed.'
+            logging.error("Recipe Failed!")
             raise KeyboardInterrupt()
 
 
