@@ -2,6 +2,7 @@
 import os
 import sys
 import time
+import string
 
 import gtk
 import wnck
@@ -25,7 +26,7 @@ OUTLINES = [(248, 72 + i*60, 249, 72 + i*60 + 56) for i in xrange(8)]
 
 RECIPE_TITLE = (276, 560, 880, 604)
 
-RECIPE_TEXT = (276, 600, 1027, 680)
+RECIPE_TEXT = (276, 604, 1027, 670)
 
 TICKET_NO = (912, 576, 1009, 599)
 
@@ -66,7 +67,7 @@ class BaseWindow(object):
         self._orders = None
 
         self.k = PyKeyboard()
-        self.ocr = OCR()
+        self.ocr = OCR(**opts)
 
     def get_window(self):
         raise NotImplementedError
@@ -113,15 +114,22 @@ class BaseWindow(object):
 
     def get_title(self):
         # returns the recipe title
-        return self.ocr.get_line(self._img.crop(RECIPE_TITLE))
+        return self.ocr(self._img.crop(RECIPE_TITLE), mode='line',
+                        whitelist=string.letters + '()')
 
     def get_text(self):
         # returns the recipe text
-        return self.ocr.get_text(self._img.crop(RECIPE_TEXT))
+        return self.ocr(self._img.crop(RECIPE_TEXT), mode='text',
+                        whitelist=string.letters + string.digits + ',./!?()')
 
     def get_ticket_no(self):
         # returns the number of the ticket, or None
-        return self.ocr.get_digits(self._img.crop(TICKET_NO), contrast=True)
+        try:
+            return int(self.ocr(self._img.crop(TICKET_NO), mode='word',
+                                whitelist=string.digits,
+                                contrast=True))
+        except ValueError:
+            return None
 
     def get_orders(self):
         # returns the complete status for each slot

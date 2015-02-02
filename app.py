@@ -4,7 +4,7 @@ import time
 import logging
 
 
-logging.basicConfig(format='%(levelname)8s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(levelname)8s - %(message)s', level=logging.DEBUG)
 
 
 def _run(args):
@@ -28,20 +28,11 @@ def _run(args):
 
 def _interpreter(args):
     from cookbot.interpreter import parser
-    from cookbot.recipes import RECIPES
 
     if args.recipe:
         cmd = parser.parse(args.recipe)
-        cmd()
+        print cmd
         return
-
-    for food, recipes in RECIPES.items():
-        if food != 'coffee':
-            continue
-        for name, recipe in recipes.items():
-            print name, recipe
-            cmd = parser.parse(recipe)
-            cmd()
 
 
 def main():
@@ -58,6 +49,7 @@ def main():
     parser_run.add_argument("-k", "--key-delay", type=float, default=0.1, dest='key_delay')
     parser_run.add_argument("--disable-canary", action='store_false', dest='canary')
     parser_run.add_argument("--disable-auto-accept", action='store_false', dest='auto_accept')
+    parser_run.add_argument("--db", dest="dbfile", default='cookbot.db')
 
     parser_interpreter = subparsers.add_parser('interpreter')
     parser_interpreter.set_defaults(func=_interpreter)

@@ -1,148 +1,78 @@
 # -*- coding: utf-8 -*-
-import commands
+import ctypes
 import json
 import logging
-import math
-import os
 from tempfile import NamedTemporaryFile
 
-from PIL import Image, ImageOps
+from PIL import ImageOps
 
 from cookbot.spellcheck import spellcheck
-from cookbot.colorops import histx
 
 
-# Tesseract is much faster and easier since it outputs text to stdout,
-# so we use it to do the heavy-lifting and recognize the recipe title
-# and ticket number and other small texts.
+libname = '/usr/lib/libtesseract.so.3'
+TESSDATA_PREFIX = '/usr/share/tesseract-ocr'
 
-# Cuneiform is slower, but a lot more accurate when recognizing the
-# fancy font used on the recipe text, but that's needed only for
-# coffee and robbery_id.
+libtesseract = ctypes.cdll.LoadLibrary(libname)
 
+# page segmentation modes
+(PSM_OSD_ONLY, PSM_AUTO_OSD, PSM_AUTO_ONLY, PSM_AUTO, PSM_SINGLE_COLUMN,
+ PSM_SINGLE_BLOCK_VERT_TEXT, PSM_SINGLE_BLOCK, PSM_SINGLE_LINE,
+ PSM_SINGLE_WORD, PSM_CIRCLE_WORD, PSM_SINGLE_CHAR, PSM_SPARSE_TEXT,
+ PSM_SPARSE_TEXT_OSD, PSM_COUNT) = map(ctypes.c_int, xrange(14))
 
-def tempfile(delete=False):
-    return NamedTemporaryFile(prefix='cookbot_', dir='./tmp', delete=delete)
-
-
-def ocr_tesseract(img, format='text', digits=False):
-    with tempfile() as f:
-        img.save(f, 'BMP')
-
-        config = ['-l eng']
-        config.append({'text': '-psm 3', 'line': '-psm 7', 'word': '-psm 8'}[format])
-
-        if digits:
-            config.append('digits')
-
-        config = ' '.join(config)
-
-        status, output = commands.getstatusoutput('tesseract {0} stdout {1}'.format(f.name, config))
-        assert status == 0
-        return output
+MODES = {'text': PSM_AUTO, 'line': PSM_SINGLE_LINE, 'word': PSM_SINGLE_WORD}
 
 
-def ocr_cuneiform(img, format='text', digits=False):
-    with tempfile() as f, tempfile() as out:
-        #img = img.resize((img.size[0]*3, img.size[1]*3), Image.ANTIALIAS)
-        img.save(f, 'BMP')
-        f.close()
-
-        status, output = commands.getstatusoutput('cuneiform -l eng -f text -o {1} {0}'.format(f.name, out.name))
-
-        assert status == 0, (output, f.name)
-
-        out.seek(0)
-        output = out.read()
-
-        return output
+def _tempfile(delete=True, suffix=''):
+    return NamedTemporaryFile(prefix='cookbot_', dir='./tmp', delete=delete, suffix=suffix)
 
 
 class OCR(object):
+    def __init__(self, **opts):
+        pass
 
-    def __init__(self):
-        try:
-            with open('OCR_CACHE.json') as f:
-                self._cache = json.loads(f.read())
-        except IOError:
-            self._cache = {}
-
-    def _ocr(self, img, format='text', digits=False, contrast=False, cache=True):
-
-        h = repr(histx(img))
-
-        if cache:
-            try:
-                output = self._cache[h].encode('utf-8')
-                logging.info("Cache hit: %r" % output)
-                return output
-            except KeyError:
-                pass
+    def _tesseract(self, im, mode='text', lang='eng', whitelist='', blacklist='', contrast=False, **opts):
+        api = libtesseract.TessBaseAPICreate()
 
         if contrast:
-            img = ImageOps.autocontrast(ImageOps.grayscale(img))
+            im = ImageOps.autocontrast(ImageOps.grayscale(im))
 
-        if format == 'text':
-            return ocr_cuneiform(img)
+        with _tempfile(suffix='.bmp') as f:
+            im.save(f, 'BMP')
 
-        else:
-            return ocr_tesseract(img, format=format, digits=digits)
+            try:
+                rc = libtesseract.TessBaseAPIInit3(api, TESSDATA_PREFIX, lang)
+                if rc:
+                    raise RuntimeError("Could not initialize tesseract.")
 
-    def get_line(self, im, **kwargs):
-        return spellcheck(self._ocr(im, format='line', **kwargs))
+                if whitelist:
+                    libtesseract.TessBaseAPISetVariable(api, "tessedit_char_whitelist", whitelist)
 
-    def get_text(self, im, **kwargs):
-        return spellcheck(self._ocr(im, format='text', contrast=True, **kwargs))
+                if blacklist:
+                    libtesseract.TessBaseAPISetVariable(api, "tessedit_char_blacklist", blacklist)
 
-    def get_digits(self, im, **kwargs):
-        try:
-            return str(int(self._ocr(im, format='word', digits=True, **kwargs).strip()))
-        except ValueError:
-            return None
+                psm = MODES.get(mode, PSM_AUTO)
 
+                libtesseract.TessBaseAPISetPageSegMode(api, psm)
 
-def build_opt():
+                text_out = libtesseract.TessBaseAPIProcessPages(api, f.name, None, 0)
 
-    cache = {}
+                result_text = ctypes.string_at(text_out)
 
-    for f in os.listdir('tmp'):
-        if not f.endswith('bmp'):
-            continue
+                return result_text.decode('utf-8')
 
-        p = os.path.join('tmp', f)
+            finally:
+                libtesseract.TessBaseAPIDelete(api)
 
-        im = Image.open(p)
+    def __call__(self, im, contrast=False, **kwargs):
+        text = self._tesseract(im, **kwargs)
+        logging.debug("Raw text: %r" % text)
 
-        if im.size != (604, 44):
-            continue
+        text = spellcheck(text)
+        logging.debug("Text: %r" % text)
 
-        config = '-psm 3 -l eng'
+        return text
 
-        h = repr(histx(im))
-
-        print p
-        print h
-        status, ocr_output = commands.getstatusoutput('tesseract %s stdout %s' % (p, config))
-
-        if not ocr_output:
-            continue
-
-        try:
-            output = cache[h]
-            assert output == ocr_output, f
-            print 'cache hit', repr(output)
-        except KeyError:
-            cache[h] = ocr_output
-            print 'cached', repr(ocr_output)
-
-        print '-' * 80
-
-    with open('OCR_CACHE.json', 'w') as f:
-        f.write(json.dumps(cache))
-
-
-
-if __name__ == '__main__':
-    #main()
-
-    build_opt()
+    def save_cache(self):
+        with open('OCR_CACHE.json', 'w') as f:
+            f.write(json.dumps(self._cache))

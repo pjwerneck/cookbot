@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 import time
 import logging
+import string
+import random
 
 from cookbot.interpreter import parser
-from cookbot.recipes import FOODS, FINISH_AT, RecipesBase
+from cookbot.db import CookDB
 from cookbot.window import GameWindow
+from cookbot.colorops import origin_dist
 
 
 class CookBot(object):
@@ -13,17 +16,13 @@ class CookBot(object):
         self._opts = opts
 
         self.window = GameWindow(**opts)
-        self.recipes = RecipesBase(**opts)
+        self.db = CookDB(**opts)
 
         self._running = False
 
         self._log = {}
 
-        self._accepted = {}
-        self._received = {}
-        self._cooking = {}
         self._waiting = {}
-        self._ready = {}
 
         self._errors = []
         self._canary = []
@@ -56,8 +55,11 @@ class CookBot(object):
             time.sleep(self._opts['loop_delay'])
 
     def execute_recipe(self, s):
-        cmd = parser.parse(s)
-        cmd(window=self.window, key_delay=self._opts['key_delay'])
+        while s:
+            logging.debug("Executing recipe: %r" % s)
+            cmd = parser.parse(s)
+            logging.debug("Command built: %r" % cmd)
+            s = cmd(bot=self, **self._opts)
 
         self.check_result('p')
 
@@ -85,17 +87,20 @@ class CookBot(object):
                 raise NotImplementedError("the mix: %r" % (p,))
 
         try:
-            food = FOODS[self.window.title]
+            food = self.db.get_food(self.window.title)
             if self.window.at_grill():
                 food = food + '_grill'
+
+            del self._errors[:]
             return food
         except KeyError:
             pass
 
         if self.window.title.startswith('robbery'):
+            del self._errors[:]
             return 'robbery'
 
-        if self._errors:
+        if len(self._errors) > 4:
             logging.error("Couldn't identify task: %r, %r" % (self.window.title, self.window.text))
             self.window._img.show()
             raise RuntimeError("Couldn't identify task %r" % self.window.title)
@@ -103,51 +108,34 @@ class CookBot(object):
             self._errors.append(self.window.title)
 
     def accept(self, n):
-        # accept only if seen at least once before and not accepted within the last second
-        self._accepted.setdefault(n, time.time())
-
-        if time.time() - self._accepted[n] > 0.1:
+        # accept only if waiting for at least 100ms
+        if time.time() - self._waiting[n] > 0.1:
             logging.info("%s accept." % n)
 
             if self._opts['test_recipes']:
                 self.window.change_recipe()
 
             self.window.key(str(n))
-            del self._accepted[n]
-            return True
-
-        return False
-
-    def ready(self, n):
-        # only ready if ready for at least 0.5 sec
-        self._ready.setdefault(n, time.time())
-
-        #if time.time() - self._ready[n] > 0.1:
-        if 1:
-            logging.info("%s ready." %n)
-
-            self.window.key(str(n))
-            self.check_result('r')
-            del self._ready[n]
-            return True
-
-        return False
-
-    def finish(self, n):
-        # only ready if ready for at least 1 sec
-        self._waiting.setdefault(n, time.time())
-
-        #if time.time() - self._waiting[n] > 0.5:
-        if 1:
-            logging.info("%s finishing." % n)
-
-            self.window.key(str(n))
-            self.check_result('r')
             del self._waiting[n]
             return True
 
         return False
 
+    def ready(self, n):
+        # always fine to deliver a ready order
+        logging.info("%s ready." %n)
+
+        self.window.key(str(n))
+        self.check_result('r')
+        return True
+
+    def finish(self, n):
+        # always fine to finish
+        logging.info("%s finishing." % n)
+
+        self.window.key(str(n))
+        self.check_result('r')
+        return True
 
     def order(self):
         orders = self.window.orders
@@ -167,12 +155,21 @@ class CookBot(object):
         if self._opts['auto_accept']:
             new_orders = [o for o in orders if o[2] == 'new']
 
-            # rank orders by x_factor
-            new_orders.sort(key=lambda x: x[3])
+            # rank orders by arrival and x_factor
+            # new_orders.sort(key=lambda x: self._waiting.get(x[0], 0))
+            new_orders.sort(key=lambda x: int(x[-1]))#, self._waiting.get(x[0], 0)))
+
+            # set arrival
+            for n, active, status, x in new_orders:
+                self._waiting.setdefault(n, time.time())
 
             for n, active, status, x in new_orders:
+                logging.info("%s trying." % n)
+
                 if self.accept(n):
                     return
+
+                logging.info("%r not accepted" % n)
 
 
     def prepare(self):
@@ -188,9 +185,10 @@ class CookBot(object):
             return
 
         logging.info("Food: %s" % food)
+        logging.info("Title: %s" % self.window.title)
         del self._errors[:]
 
-        recipe = self.recipes.get_recipe(food, self.window)
+        recipe = self.db.get_recipe(food, self.window.title)
 
         logging.info("Recipe: %s" % recipe)
 
@@ -222,4 +220,117 @@ class CookBot(object):
             logging.error("Recipe Failed!")
             raise KeyboardInterrupt()
 
+    def run_robbery(self):
+        text = self.window.text
+        
+        text = text.translate({ord(char): ord(u' ') for char in string.punctuation})
 
+        logging.info("Robbery: %r" % text)
+        tokens = text.split()
+
+        nouns = {'hair': {'bald': 'h', 'sexy': 'hh', 'spiked': 'hhh', 'poofy': 'hhhh'},
+                 'eyes': {'normal': 'y', 'crazy': 'yy', 'sexy': 'yyy', 'beady': 'yyyy'},
+                 'ears': {'normal': 'e', 'round': 'ee', 'long': 'eee', 'tiny': 'eeee'},
+                 'nose': {'crooked': 'n', 'normal': 'nn', 'fancy': 'nnn'},
+                 'lips': {'long': 'l', 'small': 'll', 'sexy': 'lll'},
+                 'facial_hair': {'mustache': 'f', 'beard': 'ff', 'fuzz': 'fff'},
+                 }
+
+        adjectives = {'sexy', 'spiked', 'poofy', 'normal', 'crazy', 'beady',
+                      'round', 'long', 'tiny', 'crooked', 'fancy', 'small'}
+
+        reverse_match = {'bald': 'hair',
+                         'mustache': 'facial_hair',
+                         'beard': 'facial_hair',
+                         'fuzz': 'facial_hair'}
+
+        current_jj = None
+        match = {k: [] for k in nouns}
+        match['facial_hair'] = []
+
+        tokens = text.replace(',', '').split()
+
+        for word in tokens:
+            if word in reverse_match:
+                v = reverse_match[word]
+                match[v].append(word)
+
+            elif word in adjectives:
+                current_jj = word
+
+            elif word in nouns:
+                match[word].append(current_jj)
+
+        assert all(match.values()), match
+
+        s = ''
+
+        for k, v in match.iteritems():
+            for x in v:
+                s += nouns[k][x]
+
+
+            if k == 'facial_hair':
+                if 'mustache' in v and 'beard' in v:
+                    s += 'f'
+
+        s += 'E'
+
+        return s
+
+    def run_dishes(self):
+        bbox = (873, 107, 1124, 223)
+
+        while self.window.at_kitchen():
+            im = self.window._img.crop(bbox)
+            h = int(origin_dist(im, (157, 24, 24)))
+
+            if h == 54644:
+                self.window.key(self.window.k.left_key)
+
+            elif h == 312328:
+                self.window.key(self.window.k.right_key)
+
+            elif h == 126311:
+                self.window.key(self.window.k.up_key)
+
+            self.window.refresh()
+
+    def run_trash(self):
+        bbox = (873, 107, 1124, 223)
+
+        while self.window.at_kitchen():
+            im = self.window._img.crop(bbox)
+            h = int(origin_dist(im, (157, 24, 24)))
+
+            if h == 54862:
+                self.window.key(self.window.k.up_key)
+
+            elif h == 312328:
+                self.window.key(self.window.k.right_key)
+
+            elif h == 136091:
+                self.window.key('s')
+
+            self.window.refresh()
+
+
+    def run_battle_kitchen_upgrade(self):
+        img = self.window._img
+
+        top_im = img.crop((420, 290, 620, 322))
+        bot_im = img.crop((420, 442, 620, 474))
+
+        top_text = self.window.ocr.get_line(top_im)
+        bot_text = self.window.ocr.get_line(bot_im)
+
+        # if there's an upgrade, choose it
+        if 'upgrade' in top_text:
+            return 'z'
+
+        if 'upgrade' in bot_text:
+            return 'x'
+
+        # othwerise, choose one randomly
+
+        return random.choice('zx')

@@ -102,7 +102,7 @@ class KeyPress(Node):
     def __call__(self, *args, **kwargs):
         logging.debug(repr(self))
 
-        k = kwargs['window'].k
+        k = kwargs['bot'].window.k
         keymap = {'E': k.return_key,
                   'U': k.up_key,
                   'D': k.down_key,
@@ -125,7 +125,7 @@ class KeyRelease(Node):
     def __call__(self, *args, **kwargs):
         logging.debug(repr(self))
 
-        k = kwargs['window'].k
+        k = kwargs['bot'].window.k
         keymap = {'E': k.return_key,
                   'U': k.up_key,
                   'D': k.down_key,
@@ -144,15 +144,33 @@ class RegExpr(Node):
     def __repr__(self):
         return 'RegExpr(%r)' % self.expr
 
-    def __call__(self, *args, **kwargs):
-        text = kwargs['window'].text
+    def __call__(self, *args, **kwargs):        
+        text = kwargs['bot'].window.text
+
+        logging.info("%r with text=%r" % (self, text)) 
 
         match = re.search(self.expr, text)
 
         if match:
             return match.groups()[0]
 
-        raise ValueError("RegExpr evaluation failed")
+        raise ValueError("RegExpr evaluation failed: %r" % text)
+
+
+class MethodCall(Node):
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return 'MethodCall(%r)' % self.name
+
+    def __call__(self, *args, **kwargs):
+        try:
+            method = getattr(kwargs['bot'], self.name)
+        except AttributeError:
+            raise ValueError("Method evaluation failed: %r" % self.name)
+
+        return method()
 
 
 class Recipe(Node):
@@ -182,7 +200,7 @@ tokens = ('KEY',
           'RPAREN',
           'COMMA',
           'ASK',
-          'FCALL',
+          'MCALL',
           'REXPR',
           'FEXPR',
           )
@@ -202,9 +220,9 @@ def t_REXPR(t):
     return t
 
 
-def t_FCALL(t):
+def t_MCALL(t):
     r'\$.*'
-    # ignored
+    return t
 
 def t_FEXPR(t):
     r'\|.*'
@@ -265,6 +283,13 @@ lex.lex()
 
 precedence = (('right', 'TIMES'),
               )
+
+def p_recipe_call(p):
+    """
+    recipe : mcall
+    """
+    p[0] = p[1]
+
 
 
 def p_recipe(p):
@@ -394,6 +419,13 @@ def p_number(p):
     number : ICONST
     """
     p[0] = p[1]
+
+
+def p_mcall(p):
+    """
+    mcall : MCALL
+    """
+    p[0] = MethodCall(p[1].strip('$'))
 
 
 def p_error(p):
