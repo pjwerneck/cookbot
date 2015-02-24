@@ -2,11 +2,13 @@
 import ctypes
 import json
 import logging
+import sqlite3
 from tempfile import NamedTemporaryFile
 
 from PIL import ImageOps
 
-from cookbot.spellcheck import spellcheck
+from cookbot.spellcheck import SpellChecker
+from cookbot.colorops import histx
 
 
 libname = '/usr/lib/libtesseract.so.3'
@@ -28,8 +30,12 @@ def _tempfile(delete=True, suffix=''):
 
 
 class OCR(object):
-    def __init__(self, **opts):
-        pass
+    def __init__(self, db, **opts):
+        self.db = db
+        self._opts = opts
+        self.spellchecker = SpellChecker(db, **opts)
+
+        self.cache = sqlite3.connect('data/OCR_CACHE.db')
 
     def _tesseract(self, im, mode='text', lang='eng', whitelist='', blacklist='', contrast=False, **opts):
         api = libtesseract.TessBaseAPICreate()
@@ -65,14 +71,29 @@ class OCR(object):
                 libtesseract.TessBaseAPIDelete(api)
 
     def __call__(self, im, contrast=False, **kwargs):
+
+        h = histx(im)
+        text = self.get_from_cache(h)
+        if text is not None:
+            logging.info("Cache hit (%r): %r" % (h, text))
+            return text
+
         text = self._tesseract(im, **kwargs)
         logging.debug("Raw text: %r" % text)
 
-        text = spellcheck(text)
+        text = self.spellchecker(text)
         logging.debug("Text: %r" % text)
+
+        self.set_to_cache(h, text)
 
         return text
 
-    def save_cache(self):
-        with open('OCR_CACHE.json', 'w') as f:
-            f.write(json.dumps(self._cache))
+    def get_from_cache(self, key):
+        v = self.cache.execute("select text from cache where h = ? limit 1", (key,)).fetchone()
+
+        if v:
+            return v[0]
+
+    def set_to_cache(self, key, value):
+        self.cache.execute("insert into cache (h, text) values (?, ?)", (key, value))
+        self.cache.commit()

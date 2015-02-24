@@ -1,31 +1,35 @@
 # -*- coding: utf-8 -*-
-import time
 import logging
-import string
+import os
 import random
+import string
+import time
 
+from PIL import Image
+
+from cookbot.colorops import origin_dist, delta_chi_square
+from cookbot.db import NotFound
 from cookbot.interpreter import parser
-from cookbot.db import CookDB
 from cookbot.window import GameWindow
-from cookbot.colorops import origin_dist
 
 
 class CookBot(object):
-    def __init__(self, **opts):
+    def __init__(self, db, **opts):
+        self.db = db
 
         self._opts = opts
 
-        self.window = GameWindow(**opts)
-        self.db = CookDB(**opts)
+        self.window = GameWindow(db, **opts)
 
         self._running = False
 
-        self._log = {}
-
+        self._order_log = {}
         self._waiting = {}
-
+        self._accepted = 0
         self._errors = []
         self._canary = []
+
+        self._refs = {n.split('.')[0]: Image.open('battle/' + n).histogram() for n in os.listdir('battle/')}
 
     def run(self):
         logging.info("Starting...")
@@ -66,34 +70,29 @@ class CookBot(object):
     def get_food(self):
         # XXX: ugly hack needed to circumvent equal names for some foods
         if self.window.title == 'the mix':
-            p = self.window._img.getpixel((394, 283))
 
-            if p == (21, 18, 16):
-                self.window._title += ' sushi'
+            if 'meat' in self.window.text:
+                self.window._title += ' burger'
 
-            elif p == (47, 91, 21):
+            elif 'ranch' in self.window.text:
                 self.window._title += ' salad'
 
-            elif p == (134, 134, 132):
-                self.window._title += ' burger'
-
-            elif p == (148, 179, 229):
-                self.window._title += ' burger'
-
-            elif p == (129, 75, 68):
-                self.window._title += ' burger'
+            elif 'mackerel' in self.window.text:
+                self.window._title += ' sushi'
 
             else:
                 raise NotImplementedError("the mix: %r" % (p,))
 
         try:
-            food = self.db.get_food(self.window.title)
+            food, title, recipe, finished_at = self.db.get_food(self.window.title)
+
             if self.window.at_grill():
                 food = food + '_grill'
 
             del self._errors[:]
             return food
-        except KeyError:
+
+        except NotFound:
             pass
 
         if self.window.title.startswith('robbery'):
@@ -108,18 +107,12 @@ class CookBot(object):
             self._errors.append(self.window.title)
 
     def accept(self, n):
-        # accept only if waiting for at least 100ms
-        if time.time() - self._waiting[n] > 0.1:
-            logging.info("%s accept." % n)
+        logging.info("%s accept" % n)
 
-            if self._opts['test_recipes']:
-                self.window.change_recipe()
+        if self._opts['test_recipes']:
+            self.window.change_recipe()
 
-            self.window.key(str(n))
-            del self._waiting[n]
-            return True
-
-        return False
+        self.window.key(str(n))
 
     def ready(self, n):
         # always fine to deliver a ready order
@@ -127,7 +120,7 @@ class CookBot(object):
 
         self.window.key(str(n))
         self.check_result('r')
-        return True
+        self._waiting.pop(n, None)
 
     def finish(self, n):
         # always fine to finish
@@ -135,9 +128,15 @@ class CookBot(object):
 
         self.window.key(str(n))
         self.check_result('r')
-        return True
+        self._waiting.pop(n, None)
 
-    def order(self):
+    def quick_ready(self):
+        self.order(refresh=True, only_ready=True)
+
+    def order(self, refresh=False, only_ready=False):
+        if refresh:
+            self.window.refresh()
+
         orders = self.window.orders
 
         # first, accept burning and ready orders
@@ -145,39 +144,45 @@ class CookBot(object):
         for n, active, status, x in ready_orders:
             self.ready(n)
 
+        if only_ready:
+            return
+
         # then, finish waiting orders
         waiting_orders = [o for o in orders if o[2] == 'waiting']
         for n, active, status, x in waiting_orders:
-            if self.finish(n):
-                return
+            self.finish(n)
+            return
+
+        # don't accept new order within 100ms
+        if time.time() - self._accepted < 0.5:
+            print 'WAITING'
+            return
 
         # then, accept new orders
         if self._opts['auto_accept']:
             new_orders = [o for o in orders if o[2] == 'new']
 
             # rank orders by arrival and x_factor
-            # new_orders.sort(key=lambda x: self._waiting.get(x[0], 0))
-            new_orders.sort(key=lambda x: int(x[-1]))#, self._waiting.get(x[0], 0)))
+            new_orders.sort(key=lambda x: int(x[-1]))
 
             # set arrival
             for n, active, status, x in new_orders:
                 self._waiting.setdefault(n, time.time())
 
             for n, active, status, x in new_orders:
-                logging.info("%s trying." % n)
+                if time.time() - self._waiting[n] < 0.2:
+                    continue
 
-                if self.accept(n):
-                    return
-
-                logging.info("%r not accepted" % n)
-
+                self.accept(n)
+                self._accepted = time.time()
+                break
 
     def prepare(self):
-        log_entry = self._log.get(self.window.title, (0, None))
+        log_entry = self._order_log.get(self.window.title, (0, None))
 
         if time.time() - log_entry[0] < 1:
             if log_entry[1] == self.window.ticket_no:
-                logging.warning("Same order and ticket number. Waiting confirmation...")
+                logging.warning("Same ticket number. Waiting confirmation...")
                 return
 
         food = self.get_food()
@@ -195,22 +200,23 @@ class CookBot(object):
         if recipe:
             self.execute_recipe(recipe)
 
-        self._log[self.window.title] = (time.time(), self.window.ticket_no)
+        self._order_log[self.window.title] = (time.time(), self.window.ticket_no)
 
     def check_result(self, w):
         if not self._opts['test_recipes']:
             return
 
-        food = self.get_food()
-        if not food:
+        food = self._opts['test_recipes']
+
+        try:
+            finished_at = self.db.get_finished_at(food)
+        except NotFound:
             return
 
         if food.endswith('_grill'):
             return
 
-        f = FINISH_AT[self._opts['test_recipes']]
-
-        if f != w:
+        if finished_at != w:
             return
 
         if self.window.order_ok():
@@ -218,11 +224,11 @@ class CookBot(object):
 
         else:
             logging.error("Recipe Failed!")
-            raise KeyboardInterrupt()
+            exit(1)
 
     def run_robbery(self):
         text = self.window.text
-        
+
         text = text.translate({ord(char): ord(u' ') for char in string.punctuation})
 
         logging.info("Robbery: %r" % text)
@@ -279,6 +285,8 @@ class CookBot(object):
         return s
 
     def run_dishes(self):
+        return 'LRLRU' * 6
+
         bbox = (873, 107, 1124, 223)
 
         while self.window.at_kitchen():
@@ -297,6 +305,9 @@ class CookBot(object):
             self.window.refresh()
 
     def run_trash(self):
+        return ('U.[0.2]R.[0.2]' * 5) + 's'
+
+
         bbox = (873, 107, 1124, 223)
 
         while self.window.at_kitchen():
@@ -318,19 +329,88 @@ class CookBot(object):
     def run_battle_kitchen_upgrade(self):
         img = self.window._img
 
-        top_im = img.crop((420, 290, 620, 322))
-        bot_im = img.crop((420, 442, 620, 474))
-
-        top_text = self.window.ocr.get_line(top_im)
-        bot_text = self.window.ocr.get_line(bot_im)
+        i = int(time.time())
+        img.save('tmp/battle_%d.bmp' % i)
+        print i
 
         # if there's an upgrade, choose it
+
+        top_im = img.crop((420, 290, 620, 322))
+        top_text = self.window.ocr(top_im)
+
         if 'upgrade' in top_text:
+            logging.info("Upgrading top...")
             return 'z'
 
+        bot_im = img.crop((420, 442, 620, 474))
+        bot_text = self.window.ocr(bot_im)
+
         if 'upgrade' in bot_text:
+            logging.info("Upgrading bottom...")
             return 'x'
 
-        # othwerise, choose one randomly
+        options = []
 
-        return random.choice('zx')
+        # othwerise, identify the options and choose
+        if 'replace' in top_text:
+            #imt1 = img.crop((423, 189, 517, 283)).histogram()
+            imt2 = img.crop((523, 189, 617, 283)).histogram()
+
+            #ts1 = min([(k, delta_chi_square(imt1, v)) for (k, v) in self._refs.iteritems()], key=lambda x: x[1])
+            ts2 = min([(k, delta_chi_square(imt2, v)) for (k, v) in self._refs.iteritems()], key=lambda x: x[1])
+
+            if ts2[1] < 1000:
+                options.append((ts2[0], 'z'))
+
+            else:
+                raise RuntimeError("Can't identify top upgrade")
+
+        if 'replace' in bot_text:
+            #imb1 = img.crop((423, 341, 517, 435)).histogram()
+            imb2 = img.crop((523, 341, 617, 435)).histogram()
+
+            #bs1 = min([(k, delta_chi_square(imb1, v)) for (k, v) in self._refs.iteritems()], key=lambda x: x[1])
+            bs2 = min([(k, delta_chi_square(imb2, v)) for (k, v) in self._refs.iteritems()], key=lambda x: x[1])
+
+            if bs2[1] < 1000:
+                options.append((bs2[0], 'x'))
+
+            else:
+                raise RuntimeError("Can't identify bottom upgrade")
+
+
+        preference = [
+            'coffee',
+            'salad',
+            'icecream',
+            'enchiladas',
+            'soda',
+            'wine',
+
+            'baked_potato',
+
+            'breakfast_sandwich',
+            'shish_kebob',
+            'fried_rice',
+            'fish',
+            'chicken_breast',
+            'steak',
+            'pizza',
+
+            'lobster',
+            'nachos',
+            'burger',
+            'pancakes',
+            'pasta',
+            'soup',
+
+            'sopapillas',
+            'hash_browns',
+            ]
+
+        choice = min(options, key=lambda x: preference.index(x[0]))
+
+        logging.info("Options: %s" % repr(options))
+        logging.info("Choice: %r, %r" % choice)
+
+        return choice[1]

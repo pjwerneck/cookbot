@@ -115,6 +115,18 @@ def delta_hist(ha, hb):
 
     return math.sqrt(sum((a - b) ** 2 for (a, b) in zip(ha, hb)) / n)
 
+def delta_hist_im(ima, imb):
+    ha = ima.histogram()
+    hb = imb.histogram()
+
+    n = len(ha)
+
+    return math.sqrt(sum((a - b) ** 2 for (a, b) in zip(ha, hb)) / n)
+
+
+def delta_chi_square(ha, hb):
+    return sum([(((a - b) ** 2) / a) for (a, b) in zip(ha, hb) if a])
+
 
 def histx(im):
     h = im.histogram()

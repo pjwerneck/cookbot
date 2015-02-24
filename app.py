@@ -3,15 +3,22 @@ import argparse
 import time
 import logging
 
+from cookbot.db import CookDB
 
-logging.basicConfig(format='%(levelname)8s - %(message)s', level=logging.DEBUG)
+
+logging.basicConfig(format='%(levelname)8s - %(message)s', level=logging.INFO)
 
 
 def _run(args):
 
     from cookbot.bot import CookBot
 
-    game = CookBot(**vars(args))
+    opts = vars(args)
+
+    db = CookDB()
+    db.load()
+
+    game = CookBot(db, **opts)
 
     time.sleep(1)
 
@@ -60,6 +67,24 @@ def main():
 
     args = parser.parse_args()
     args.func(args)
+
+
+def _main():
+
+    import sqlite3
+
+    conn = sqlite3.connect('data/COOKBOT.db')
+
+
+    c = conn.cursor()
+
+    c.execute("select * from recipes order by food")
+
+    import tabulate
+
+    rows = [r for r in c]
+
+    print tabulate.tabulate(rows, tablefmt='pipe')
 
 
 

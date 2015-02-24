@@ -9,7 +9,7 @@ import wnck
 from PIL import Image
 from pykeyboard import PyKeyboard
 
-from cookbot.colorops import rgb_to_hsv, rgb_delta, delta_hist
+from cookbot.colorops import rgb_to_hsv, rgb_delta, delta_hist, delta_chi_square
 from cookbot.ocr import OCR
 
 
@@ -17,11 +17,9 @@ if sys.platform.startswith('linux'):
     import ctypes
 
 
-TIMER_BOX = [(219, 72 + i*60, 241, 72 + i*60 + 56) for i in xrange(8)]
+ROSTER_OUTLINES = [(248, 72 + i*60, 249, 72 + i*60 + 56) for i in xrange(8)]
 
-ACTIVE_BOX = [(199, 72 + i*60, 247, 72 + i*60 + 56) for i in xrange(8)]
-
-OUTLINES = [(248, 72 + i*60, 249, 72 + i*60 + 56) for i in xrange(8)]
+ROSTER_LABELS = [(70, 77 + i*60, 207, 77 + i*60 + 46) for i in xrange(8)]
 
 
 RECIPE_TITLE = (276, 560, 880, 604)
@@ -30,7 +28,6 @@ RECIPE_TEXT = (276, 604, 1027, 670)
 
 TICKET_NO = (912, 576, 1009, 599)
 
-#CANARY_PX = (481, 36)
 CANARY_PX = (66, 679)
 
 ROSTER = [(24, 90),
@@ -55,7 +52,8 @@ def yellow(im):
 
 
 class BaseWindow(object):
-    def __init__(self, **opts):
+    def __init__(self, db, **opts):
+        self.db = db
         self._opts = opts
 
         self._window = None
@@ -67,7 +65,7 @@ class BaseWindow(object):
         self._orders = None
 
         self.k = PyKeyboard()
-        self.ocr = OCR(**opts)
+        self.ocr = OCR(db, **opts)
 
     def get_window(self):
         raise NotImplementedError
@@ -115,7 +113,7 @@ class BaseWindow(object):
     def get_title(self):
         # returns the recipe title
         return self.ocr(self._img.crop(RECIPE_TITLE), mode='line',
-                        whitelist=string.letters + '()')
+                        whitelist=string.letters + './()"-&')
 
     def get_text(self):
         # returns the recipe text
@@ -154,7 +152,7 @@ class BaseWindow(object):
                 x_factor.append(None)
                 continue
 
-            bbox = OUTLINES[i]
+            bbox = ROSTER_OUTLINES[i]
             x1, y1, x2, y2 = bbox
 
             out = _identify_outline(self._img.crop(bbox))
@@ -227,8 +225,24 @@ class BaseWindow(object):
         SMILEY_BBOX = (61, 72, 221, 128)
         return max([yellow(self.capture(SMILEY_BBOX)) for x in xrange(20)]) > 800
 
+    def save_label(self, n):
+        bbox = ROSTER_LABELS[n-1]
 
+        im = self._img.crop(bbox)
 
+        im.save('img_%s_%s.bmp' % (int(time.time()), n))
+
+    def id_label(self, n):
+        bbox = ROSTER_LABELS[n-1]
+
+        hb = self._img.crop(bbox).histogram()
+
+        final = min([(name, delta_chi_square(ha, hb)) for (name, ha) in self._refs.iteritems()], key=lambda x: x[1])
+
+        if final[1] < 1000:
+            return final[0]
+
+        return None
 
 
 def _identify_outline(im):

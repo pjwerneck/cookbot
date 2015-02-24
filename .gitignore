@@ -1,0 +1,11 @@
+*pyc
+*pyo
+*~
+tcm.db
+tcm/config/local.py
+logs
+*.swp
+.env
+.venv
+.empty
+.idea

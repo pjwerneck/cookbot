@@ -72,6 +72,30 @@ class Sleep(Node):
         self.seconds = trailer.press
 
 
+class ExprList(Node):
+    def __init__(self, nodes):
+        self.nodes = nodes
+
+    def __repr__(self):
+        return 'ExprList(%r)' % self.nodes
+
+    def __call__(self, *args, **kwargs):
+        for node in self.nodes:
+            node(*args, **kwargs)
+
+    def set_trailer(self, trailer):
+        for node in self.nodes:
+            node.set_trailer(trailer)
+
+    def __add__(self, other):
+        nodes = self.nodes + [other]
+
+        return ExprList(nodes)
+
+    def __iter__(self):
+        return iter(self.nodes)
+
+
 class Key(Node):
     def __init__(self, key, press=None, release=None):
         self.key = key
@@ -90,6 +114,7 @@ class Key(Node):
     def set_trailer(self, trailer):
         self.press = trailer.press
         self.release = trailer.release
+
 
 
 class KeyPress(Node):
@@ -144,10 +169,10 @@ class RegExpr(Node):
     def __repr__(self):
         return 'RegExpr(%r)' % self.expr
 
-    def __call__(self, *args, **kwargs):        
+    def __call__(self, *args, **kwargs):
         text = kwargs['bot'].window.text
 
-        logging.info("%r with text=%r" % (self, text)) 
+        logging.info("%r with text=%r" % (self, text))
 
         match = re.search(self.expr, text)
 
@@ -329,13 +354,12 @@ def p_arg_expr(p):
 
     if len(p) == 3:
         for v in p[1]:
-            for v in p[1]:
-                v.set_trailer(p[2])
+            v.set_trailer(p[2])
 
         p[0] = p[1]
 
     elif len(p) == 4:
-        p[0] = [Times(p[1], p[3])]
+        p[0] = ExprList([Times(p[1], p[3])])
 
 
 def p_paren_expr_list(p):
@@ -352,10 +376,10 @@ def p_expr_list(p):
     """
 
     if len(p) == 2:
-        p[0] = [p[1]]
+        p[0] = ExprList([p[1]])
 
     elif len(p) == 3:
-        p[0] = p[1] + [p[2]]
+        p[0] = p[1] + p[2]
 
 
 def p_expr_op(p):
