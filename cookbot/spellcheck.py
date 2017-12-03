@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import difflib
+import distance
 import itertools
 import string
 
@@ -72,11 +73,10 @@ class SpellChecker(object):
             return word
 
         candidates = self.known({word}) or self.ocr_error(word) or self.common_error(word)# or {word}
-        # XXX need word ranking data here
         if not candidates:
             raise RuntimeError("No candidates for: %r" % word)
 
-        return max(candidates)
+        return sorted(candidates, key=lambda candidate: distance.jaccard(word, candidate))[0]
 
     def tokenize(self, text):
         # lowercase
