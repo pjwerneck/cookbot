@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import ctypes
 import json
 import logging
+import pytesseract
 import sqlite3
 from tempfile import NamedTemporaryFile
 
@@ -11,22 +11,19 @@ from cookbot.spellcheck import SpellChecker
 from cookbot.colorops import histx
 
 
-libname = '/usr/lib/libtesseract.so.3'
-TESSDATA_PREFIX = '/usr/share/tesseract-ocr'
+pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files (x86)/Tesseract-OCR/tesseract.exe'
 
-libtesseract = ctypes.cdll.LoadLibrary(libname)
 
 # page segmentation modes
 (PSM_OSD_ONLY, PSM_AUTO_OSD, PSM_AUTO_ONLY, PSM_AUTO, PSM_SINGLE_COLUMN,
  PSM_SINGLE_BLOCK_VERT_TEXT, PSM_SINGLE_BLOCK, PSM_SINGLE_LINE,
  PSM_SINGLE_WORD, PSM_CIRCLE_WORD, PSM_SINGLE_CHAR, PSM_SPARSE_TEXT,
- PSM_SPARSE_TEXT_OSD, PSM_COUNT) = map(ctypes.c_int, xrange(14))
+ PSM_SPARSE_TEXT_OSD, PSM_COUNT) = range(14)
 
 MODES = {'text': PSM_AUTO, 'line': PSM_SINGLE_LINE, 'word': PSM_SINGLE_WORD}
 
-
 def _tempfile(delete=True, suffix=''):
-    return NamedTemporaryFile(prefix='cookbot_', dir='./tmp', delete=delete, suffix=suffix)
+    return NamedTemporaryFile(prefix='cookbot_', delete=delete, suffix=suffix)
 
 
 class OCR(object):
@@ -38,37 +35,22 @@ class OCR(object):
         self.cache = sqlite3.connect('data/OCR_CACHE.db')
 
     def _tesseract(self, im, mode='text', lang='eng', whitelist='', blacklist='', contrast=False, **opts):
-        api = libtesseract.TessBaseAPICreate()
-
         if contrast:
             im = ImageOps.autocontrast(ImageOps.grayscale(im))
 
         with _tempfile(suffix='.bmp') as f:
             im.save(f, 'BMP')
 
-            try:
-                rc = libtesseract.TessBaseAPIInit3(api, TESSDATA_PREFIX, lang)
-                if rc:
-                    raise RuntimeError("Could not initialize tesseract.")
+            tesseract_config = '--psm ' + str(MODES.get(mode, PSM_AUTO))
+            if whitelist:
+                tesseract_config += ' -c tessedit_char_whitelist=\'' + whitelist + '\''
 
-                if whitelist:
-                    libtesseract.TessBaseAPISetVariable(api, "tessedit_char_whitelist", whitelist)
+            if blacklist:
+                tesseract_config += ' -c tessedit_char_blacklist=\'' + blacklist + '\''
 
-                if blacklist:
-                    libtesseract.TessBaseAPISetVariable(api, "tessedit_char_blacklist", blacklist)
+            result_text = pytesseract.image_to_string(im, lang='eng', config=tesseract_config)
 
-                psm = MODES.get(mode, PSM_AUTO)
-
-                libtesseract.TessBaseAPISetPageSegMode(api, psm)
-
-                text_out = libtesseract.TessBaseAPIProcessPages(api, f.name, None, 0)
-
-                result_text = ctypes.string_at(text_out)
-
-                return result_text.decode('utf-8')
-
-            finally:
-                libtesseract.TessBaseAPIDelete(api)
+            return result_text.decode('utf-8')
 
     def __call__(self, im, contrast=False, **kwargs):
 
