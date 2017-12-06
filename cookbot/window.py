@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
+import re
 import sys
 import time
 import string
 
-import gtk
-import wnck
-from PIL import Image
+from PIL import Image, ImageGrab
 from pykeyboard import PyKeyboard
 
 from cookbot.colorops import rgb_to_hsv, rgb_delta, delta_hist, delta_chi_square
@@ -15,29 +14,33 @@ from cookbot.ocr import OCR
 
 if sys.platform.startswith('linux'):
     import ctypes
+    import gtk
+    import wnck
+else:
+    import win32gui
 
 
-ROSTER_OUTLINES = [(248, 72 + i*60, 249, 72 + i*60 + 56) for i in xrange(8)]
+ROSTER_OUTLINES = [(270, 80 + i*58, 271, 80 + i*58 + 48) for i in xrange(8)]
 
-ROSTER_LABELS = [(70, 77 + i*60, 207, 77 + i*60 + 46) for i in xrange(8)]
+ROSTER_LABELS = [(83, 100 + i*58, 220, 101 + i*58 + 46) for i in xrange(8)]
 
 
-RECIPE_TITLE = (276, 560, 880, 604)
+RECIPE_TITLE = (296, 555, 880, 590)
 
-RECIPE_TEXT = (276, 604, 1027, 670)
+RECIPE_TEXT = (296, 594, 1027, 670)
 
-TICKET_NO = (912, 576, 1009, 599)
+TICKET_NO = (912, 566, 1009, 589)
 
 CANARY_PX = (66, 679)
 
-ROSTER = [(24, 90),
-          (24, 164),
-          (24, 216),
-          (24, 285),
-          (24, 324),
-          (24, 398),
-          (24, 461),
-          (24, 516),
+ROSTER = [(50, 110),
+          (50, 170),
+          (50, 235),
+          (50, 284),
+          (50, 351),
+          (50, 410),
+          (50, 462),
+          (45, 525),
           ]
 
 
@@ -112,7 +115,7 @@ class BaseWindow(object):
 
     def get_title(self):
         # returns the recipe title
-        return self.ocr(self._img.crop(RECIPE_TITLE), mode='line',
+        return self.ocr(self._img.crop(RECIPE_TITLE), p=re.compile('"(.*)"'), mode='line',
                         whitelist=string.letters + './()"-&')
 
     def get_text(self):
@@ -197,15 +200,15 @@ class BaseWindow(object):
         return self._img.getpixel(CANARY_PX)
 
     def at_kitchen(self):
-        # true if at the kitchen preparation screen
-        return self._img.getpixel((840, 164)) == (37, 44, 139)
+        # true if at the food preparation station
+        return self._img.getpixel((840, 159)) == (37, 44, 139)
 
     def at_grill(self):
         # true if at the grill/boiler screen
-        p = self._img.getpixel((394, 283))
+        p = self._img.getpixel((394, 278))
         return p in {(134, 134, 132), (106, 106, 104), (95, 94, 100), (85, 83, 89)}
 
-    def key(self, k, d=0.1):
+    def key(self, k, d=0.05):
         self.k.press_key(k)
         time.sleep(self._opts['key_delay'])
         self.k.release_key(k)
@@ -222,7 +225,7 @@ class BaseWindow(object):
 
     def order_ok(self):
         # for testing recipes. Check if the order was successul.
-        SMILEY_BBOX = (61, 72, 221, 128)
+        SMILEY_BBOX = (61, 67, 221, 128)
         return max([yellow(self.capture(SMILEY_BBOX)) for x in xrange(20)]) > 800
 
     def save_label(self, n):
@@ -288,53 +291,71 @@ def _identify_outline(im):
 
 class GTKWindow(BaseWindow):
 
-    _libpath = os.path.join(os.path.dirname(os.path.abspath(__file__)), '_grabber.so')
-    _grabber = ctypes.CDLL(_libpath)
+    if sys.platform.startswith('linux'):
+        _libpath = os.path.join(os.path.dirname(os.path.abspath(__file__)), '_grabber.so')
+        _grabber = ctypes.CDLL(_libpath)
 
     def grab(self, x, y, w, h):
         size = w * h
         objlength = size * 3
 
-        self._grabber.get_screen.argtypes = []
-        result = (ctypes.c_ubyte*objlength)()
+        if sys.platform.startswith('linux'):
+            self._grabber.get_screen.argtypes = []
+            result = (ctypes.c_ubyte*objlength)()
 
-        self._grabber.get_screen(x, y, w, h, result)
-        return Image.frombuffer('RGB', (w, h), result, 'raw', 'RGB', 0, 1)
+            self._grabber.get_screen(x, y, w, h, result)
+            return Image.frombuffer('RGB', (w, h), result, 'raw', 'RGB', 0, 1)
+        else:
+            return ImageGrab.grab((x, y, w, h))
 
     def focus(self):
-        self.window.activate(int(time.time()))
+        if sys.platform.startswith('linux'):
+            self.window.activate(int(time.time()))
+        else:
+            win32gui.SetForegroundWindow(self.window)
 
     def get_window(self):
-        screen = wnck.screen_get_default()
+        if sys.platform.startswith('linux'):
+            screen = wnck.screen_get_default()
 
-        # flush gtk events
-        while gtk.events_pending():
-            gtk.main_iteration()
+            # flush gtk events
+            while gtk.events_pending():
+                gtk.main_iteration()
 
-        # find the game window
-        for window in screen.get_windows():
-            if window.get_name() == 'CookServeDelicious':
-                return window
+            # find the game window
+            for window in screen.get_windows():
+                if window.get_name() == 'CookServeDelicious':
+                    return window
 
-        raise RuntimeError("Can't find game window")
+            raise RuntimeError("Can't find game window")
+        else:
+            self.window = win32gui.FindWindow(0, 'Cook, Serve, Delicious!')
+            #toplist, winlist = [], []
+            #def enum_cb(hwnd, results):
+            #    winlist.append((hwnd, win32gui.GetWindowText(hwnd)))
+            #win32gui.EnumWindows(enum_cb, toplist)
+
+            #self.window = [hwnd for hwnd, title in winlist if 'Cook, Serve, Delicious! 2!!' in title][0]
+        return self.window
 
     def get_coords(self):
-        x, y, w, h = self.window.get_geometry()
+        if sys.platform.startswith('linux'):
+            x, y, w, h = self.window.get_geometry()
+        else:
+            rect = win32gui.GetWindowRect(self.window)
+            x = rect[0]
+            y = rect[1]
+            w = rect[2] - x
+            h = rect[3] - y
 
         # remove the title bar
-        h -= 28
-        y += 28
+        h -= 23
+        y += 23
 
         return x, y, w, h
 
 
-
-if sys.platform.startswith('linux'):
-    GameWindow = GTKWindow
-
-else:
-    raise NotImplementedError("Platform not supported: %s" % sys.platform)
-
+GameWindow = GTKWindow
 
 
 if __name__ == '__main__':
