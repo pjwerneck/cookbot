@@ -2,6 +2,7 @@
 import json
 import logging
 import pytesseract
+import re
 import sqlite3
 from tempfile import NamedTemporaryFile
 
@@ -52,7 +53,7 @@ class OCR(object):
 
             return result_text.decode('utf-8')
 
-    def __call__(self, im, contrast=False, **kwargs):
+    def __call__(self, im, p=None, **kwargs):
 
         h = histx(im)
         text = self.get_from_cache(h)
@@ -63,6 +64,8 @@ class OCR(object):
         text = self._tesseract(im, **kwargs)
         logging.debug("Raw text: %r" % text)
 
+        if p != None and p.search(text) != None:
+            text = p.search(text).group()
         text = self.spellchecker(text)
         logging.debug("Text: %r" % text)
 
