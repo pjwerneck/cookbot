@@ -53,7 +53,7 @@ class OCR(object):
 
             return result_text.decode('utf-8')
 
-    def __call__(self, im, p=None, **kwargs):
+    def __call__(self, im, p=None, name=False, **kwargs):
 
         h = histx(im)
         text = self.get_from_cache(h)
@@ -66,7 +66,7 @@ class OCR(object):
 
         if p != None and p.search(text) != None:
             text = p.search(text).group()
-        text = self.spellchecker(text)
+        text = self.spellchecker(text, name)
         logging.debug("Text: %r" % text)
 
         self.set_to_cache(h, text)
@@ -74,11 +74,11 @@ class OCR(object):
         return text
 
     def get_from_cache(self, key):
-        v = self.cache.execute("select text from cache where h = ? limit 1", (key,)).fetchone()
+        v = self.cache.execute("SELECT text FROM cache WHERE h = ? LIMIT 1", (key,)).fetchone()
 
         if v:
             return v[0]
 
     def set_to_cache(self, key, value):
-        self.cache.execute("insert into cache (h, text) values (?, ?)", (key, value))
+        self.cache.execute("INSERT INTO cache (h, text) VALUES (?, ?)", (key, value))
         self.cache.commit()

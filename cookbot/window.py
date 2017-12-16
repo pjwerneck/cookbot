@@ -25,7 +25,7 @@ ROSTER_OUTLINES = [(270, 80 + i*58, 271, 80 + i*58 + 48) for i in xrange(8)]
 ROSTER_LABELS = [(83, 100 + i*58, 220, 101 + i*58 + 46) for i in xrange(8)]
 
 
-RECIPE_TITLE = (296, 555, 880, 590)
+RECIPE_NAME = (296, 555, 880, 590)
 
 RECIPE_TEXT = (296, 594, 1027, 670)
 
@@ -62,7 +62,7 @@ class BaseWindow(object):
         self._window = None
         self._img = None
 
-        self._title = None
+        self._name = None
         self._text = None
         self._ticket_no = None
         self._orders = None
@@ -107,15 +107,15 @@ class BaseWindow(object):
 
         self._img = img or self.capture()
 
-        self._title = None
+        self._name = None
         self._text = None
         self._orders = None
         self._ticket_no = None
         self._active = None
 
-    def get_title(self):
-        # returns the recipe title
-        return self.ocr(self._img.crop(RECIPE_TITLE), p=re.compile('"(.*)"'), mode='line',
+    def get_name(self):
+        # returns the recipe name
+        return self.ocr(self._img.crop(RECIPE_NAME), p=re.compile('"(.*)"'), name=True, mode='line',
                         whitelist=string.letters + './()"-&')
 
     def get_text(self):

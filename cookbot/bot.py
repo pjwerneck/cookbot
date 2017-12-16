@@ -33,6 +33,7 @@ class CookBot(object):
 
     def run(self):
         logging.info("Starting...")
+        logging.debug(self._opts)
         self._running = True
 
         self.window.focus()
@@ -69,22 +70,22 @@ class CookBot(object):
 
     def get_food(self):
         # XXX: ugly hack needed to circumvent equal names for some foods
-        if self.window.title == 'the mix':
+        if self.window.name == 'The Mix' or  self.window.name == 'The MIX':
 
-            if 'meat' in self.window.text:
-                self.window._title += ' burger'
+            if 'meat' in self.window.text.lower():
+                self.window._name += ' Burger'
 
-            elif 'ranch' in self.window.text:
-                self.window._title += ' salad'
+            elif 'ranch' in self.window.text.lower():
+                self.window._name += ' Salad'
 
-            elif 'mackerel' in self.window.text:
-                self.window._title += ' sushi'
+            elif 'mackerel' in self.window.text.lower():
+                self.window._name += ' Sushi'
 
             else:
-                raise NotImplementedError("the mix: %r" % (p,))
+                raise NotImplementedError("%r: %r" % (self.window.name, self.window.text,))
 
         try:
-            food, title, recipe, finished_at = self.db.get_food(self.window.title)
+            food, name, recipe, finished_at = self.db.get_food(self.window.name)
 
             if self.window.at_grill():
                 food = food + '_grill'
@@ -95,16 +96,16 @@ class CookBot(object):
         except NotFound:
             pass
 
-        if self.window.title.startswith('robbery'):
+        if self.window.name.startswith('robbery'):
             del self._errors[:]
             return 'robbery'
 
         if len(self._errors) > 4:
-            logging.error("Couldn't identify task: %r, %r" % (self.window.title, self.window.text))
+            logging.error("Couldn't identify task: %r, %r" % (self.window.name, self.window.text))
             self.window._img.show()
-            raise RuntimeError("Couldn't identify task %r" % self.window.title)
+            raise RuntimeError("Couldn't identify task %r" % self.window.name)
         else:
-            self._errors.append(self.window.title)
+            self._errors.append(self.window.name)
 
     def accept(self, n):
         logging.info("%s accept" % n)
@@ -178,7 +179,7 @@ class CookBot(object):
                 break
 
     def prepare(self):
-        log_entry = self._order_log.get(self.window.title, (0, None))
+        log_entry = self._order_log.get(self.window.name, (0, None))
 
         if time.time() - log_entry[0] < 1:
             if log_entry[1] == self.window.ticket_no:
@@ -190,17 +191,17 @@ class CookBot(object):
             return
 
         logging.info("Food: %s" % food)
-        logging.info("Title: %s" % self.window.title)
+        logging.info("Name: %s" % self.window.name)
         del self._errors[:]
 
-        recipe = self.db.get_recipe(food, self.window.title)
+        recipe = self.db.get_recipe(food, self.window.name)
 
         logging.info("Recipe: %s" % recipe)
 
         if recipe:
             self.execute_recipe(recipe)
 
-        self._order_log[self.window.title] = (time.time(), self.window.ticket_no)
+        self._order_log[self.window.name] = (time.time(), self.window.ticket_no)
 
     def check_result(self, w):
         if not self._opts['test_recipes']:
@@ -229,7 +230,7 @@ class CookBot(object):
     def run_robbery(self):
         text = self.window.text
 
-        text = text.translate({ord(char): ord(u' ') for char in string.punctuation})
+        text = text.lower().translate({ord(char): ord(u' ') for char in string.punctuation})
 
         logging.info("Robbery: %r" % text)
         tokens = text.split()

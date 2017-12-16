@@ -52,11 +52,11 @@ class CookDB(object):
         for r in self.query(*args, **kwargs):
             return r
 
-    def get_recipe(self, food, title):
-        return self.query_one('SELECT recipe FROM recipes WHERE food = ? AND title = ?', (food, title))[0]
+    def get_recipe(self, food, name):
+        return self.query_one('SELECT recipe FROM recipes WHERE food = ? AND name = ?', (food, name))[0]
 
-    def get_food(self, title):
-        return self.query_one('SELECT food, title, recipe, finished_at FROM recipes WHERE title = ?', (title,))
+    def get_food(self, name):
+        return self.query_one('SELECT food, name, recipe, finished_at FROM recipes WHERE name = ?', (name,))
 
     def get_finished_at(self, food):
         return self.query_one('SELECT finished_at FROM recipes WHERE food = ? LIMIT 1', (food,))[0]
