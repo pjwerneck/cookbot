@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import difflib
+import distance
 import itertools
 import string
 
 
-# Recipe title is correct 99% of the time. Recipe text however is
+# Recipe name is correct 99% of the time. Recipe text however is
 # wrong more often than not, but the text is needed only for coffee
 # and robbery, so the actual dictionary is relatively small.
 
@@ -35,73 +36,76 @@ class SpellChecker(object):
         self.db = db
         self._opts = opts
 
+        self.NAMES = self.db.get_names()
         self.WORDS = self.db.get_words()
         self.REPLACEMENTS = self.db.get_replacements()
 
-    def build_replacements(self, word):
+    def build_replacements(self, word, name):
         reps = [[(i, r) for r in self.REPLACEMENTS[c]] for i, c in enumerate(word) if c in self.REPLACEMENTS]
 
         for repset in powerset(reps):
             for x in itertools.product(*repset):
                 yield dict(x)
 
-    def ocr_error(self, word):
-        reps = self.build_replacements(word)
+    def ocr_error(self, word, name):
+        reps = self.build_replacements(word, name)
         words = {u''.join(r.get(i, c) for (i, c) in enumerate(word)) for r in reps}
 
-        return self.known(words)
+        return self.known(words, name)
 
-    def common_error(self, word):
+    def common_error(self, word, name):
+        if name:
+            return set(difflib.get_close_matches(word.replace(" ","-"), self.NAMES))
         return set(difflib.get_close_matches(word, self.WORDS, cutoff=0.7))
 
-    def known(self, words):
-        return words.intersection(self.WORDS)
+    def known(self, words, name):
+        if name:
+            return [word for word in words if word in self.NAMES]
+        return [word for word in words if word.lower() in self.WORDS]
 
-    def correct(self, word):
-        if len(word) == 1:
+    def correct(self, word, name):
+        if not name and len(word) == 1:
             # XXX weird case
-            if word == 'z':
+            if word == 'l':
+                word = '1'
+
+            if word == 'Z':
                 word = '2'
 
-            if word == 'r':
-                word = 'p'
-
             return word
 
-        if word.isdigit():
+        if not name and word.isdigit(): #ticket number
             return word
 
-        candidates = self.known({word}) or self.ocr_error(word) or self.common_error(word)# or {word}
-        # XXX need word ranking data here
+        if name:
+            if word == 'The Mix':
+                return word
+            candidates = self.common_error(word, name)
+        else:
+            candidates = self.known([word], name) or self.ocr_error(word, name) or self.common_error(word, name)# or {word}
         if not candidates:
             raise RuntimeError("No candidates for: %r" % word)
 
-        return max(candidates)
+        return sorted(candidates, key=lambda candidate: distance.jaccard(word, candidate))[0]
 
-    def tokenize(self, text):
-        # lowercase
-        text = text.lower()
-
+    def tokenize(self, text, name):
         # remove useless punctuation
-        text = text.translate({ord(char): ord(' ') for char in '!"#$%&\'*+,-./:;<=>?@[\\]_{|}'})
+        text = text.translate({ord(char): ord(' ') for char in '!"#$%&\'*+,./:;<=>?@[\\]_{|}'})
 
         # remove balanced parenthesis
         text = remove_balanced_parenthesis(text)
 
         # split
+        if name:
+            return [text.strip()]
         return text.split()
 
 
-        return text
+    def __call__(self, text, name=False):
+        words = self.tokenize(text, name)
 
-
-    def __call__(self, text):
-        words = self.tokenize(text)
-
-        words = [self.correct(w) for w in words]
+        words = [self.correct(w, name) for w in words]
 
         text = u' '.join(words)
 
         return text
-
-

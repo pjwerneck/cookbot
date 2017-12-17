@@ -1,599 +1,599 @@
-food,cooking_time,recipe,finished_at,title
-baked_potato,,rqE,p,broccoli cheesy potato
-baked_potato,,borqE,p,broccoli cheesy surpreme potato
-baked_potato,,cybpqE,p,cheesy deluxe potato
-baked_potato,,yhbE,p,chives bacon potato
-baked_potato,,csyE,p,classic baked potato
-baked_potato,,csybE,p,classic potato w bacon
-baked_potato,,csyhboE,p,deluxe potato
-baked_potato,,csyhbovprmE,p,fully loaded potato
-baked_potato,,syhbovprqmE,p,fully loaded potato w queso
-baked_potato,,cshovprE,p,green potato
-baked_potato,,csE,p,lite n cheesy potato
-baked_potato,,shoE,p,lite potato
-baked_potato,,csbmE,p,meat classic potato
-baked_potato,,prqmE,p,meaty broccoli potato
-baked_potato,,hbpqmE,p,meaty deluxe potato
-baked_potato,,yE,p,plain potato
-baked_potato,,ymE,p,simply meat potato
-baked_potato,,soE,p,sour potato
-baked_potato,,sboE,p,sour potato w bacon
-baked_potato,,csybopE,p,spicy bacon potato
-baked_potato,,csypE,p,spicy classic potato
-baked_potato,,cyhbovpE,p,spicy deluxe potato
-baked_potato,,csyvpE,p,spicy olive potato
-baked_potato,,E,p,the dry potato
-banana_foster,,bs .[2.7] aE,p,bananas foster
-banana_foster,,bs .[2.7] arfE,p,bananas foster flambe
-beer,,D[1.4] E,p,the brewsky
-beer,,D[1.4] E,p,the rich brewsky
-breakfast_sandwich,8,scE,r,cheesy am
-breakfast_sandwich,8,escE,r,cheesy deluxe
-breakfast_sandwich,8,esbE,r,double am
-breakfast_sandwich,8,eE,r,egg biscuit
-breakfast_sandwich,8,heE,r,ham egg
-breakfast_sandwich,8,sbE,r,morning fuel
-breakfast_sandwich,8,hE,r,my hammy
-breakfast_sandwich,8,ebchE,r,sherrisoda special
-breakfast_sandwich,8,sE,r,sunrise sandwich
-breakfast_sandwich,8,ebE,r,the classic
-breakfast_sandwich,8,esE,r,the deluxe
-breakfast_sandwich,8,esbcE,r,the early bird
-breakfast_sandwich,8,esbchE,r,the megabiscuit
-breakfast_sandwich,8,bcE,r,tower biscuit
-burger,,bltE,p,blt
-burger,,bltcE,p,blt and c
-burger,,mlbcsE,p,chubigans special
-burger,,kmbcosE,p,the american
-burger,,moE,p,the aroma
-burger,,blotE,p,the blot
-burger,,cblotE,p,the c blot
-burger,,bcsE,p,the cheesy bread
-burger,,kpE,p,the chick a
-burger,,kltpE,p,the chick a deluxe
-burger,,kbcpsE,p,the chick a melt
-burger,,klbctpE,p,the chick a surpreme
-burger,,mmlbctE,p,the double
-burger,,kklpE,p,the double cs
-burger,,mmcsE,p,the double melt
-burger,,mklpbocstE,p,the everything
-burger,,ltpoE,p,the extra veggies
-burger,,mlpE,p,the greens
-burger,,mmbbcE,p,the heartstopper
-burger,,mlosE,p,the holy burger
-burger,,mlE,p,the lite delight
-burger,,mE,p,the lonely patty
-burger,,kmbE,p,the meat lovers
-burger,,mcsE,p,the melt
-burger,,kmlctE,p,the mix burger
-burger,,mlbctE,p,the original
-burger,,mmbpE,p,the p d
-burger,,mcpE,p,the pickler
-burger,,mmbcoE,p,the power
-burger,,mtE,p,the red
-burger,,mbcctE,p,the ryan davis
-burger,,mlbctpE,p,the stacked
-burger,,mtpoE,p,the super sour
-burger,,mltsE,p,the swiss
-burger,,kcsE,p,the three cs
-burger,,mtpE,p,the trio
-burger,,mmmcE,p,the triple
-burger,,mmmbcE,p,the triple w bacon
-burger,,bcE,p,the tumbleweed
-burger,,ltpE,p,the veggie
-burger_grill,9,E,p,blt
-burger_grill,9,E,p,blt and c
-burger_grill,9,mE,p,chubigans special
-burger_grill,9,kmE,p,the american
-burger_grill,9,mE,p,the aroma
-burger_grill,9,E,p,the blot
-burger_grill,9,E,p,the c blot
-burger_grill,9,E,p,the cheesy bread
-burger_grill,9,kE,p,the chick a
-burger_grill,9,kE,p,the chick a deluxe
-burger_grill,9,kE,p,the chick a melt
-burger_grill,9,kE,p,the chick a surpreme
-burger_grill,9,mmE,p,the double
-burger_grill,9,kkE,p,the double cs
-burger_grill,9,mmE,p,the double melt
-burger_grill,9,mkE,p,the everything
-burger_grill,9,E,p,the extra veggies
-burger_grill,9,mE,p,the greens
-burger_grill,9,mmE,p,the heartstopper
-burger_grill,9,mE,p,the holy burger
-burger_grill,9,mE,p,the lite delight
-burger_grill,9,mE,p,the lonely patty
-burger_grill,9,kmE,p,the meat lovers
-burger_grill,9,mE,p,the melt
-burger_grill,9,kmE,p,the mix burger
-burger_grill,9,mE,p,the original
-burger_grill,9,mmE,p,the p d
-burger_grill,9,mE,p,the pickler
-burger_grill,9,mmE,p,the power
-burger_grill,9,mE,p,the red
-burger_grill,9,mE,p,the ryan davis
-burger_grill,9,mE,p,the stacked
-burger_grill,9,mE,p,the super sour
-burger_grill,9,mE,p,the swiss
-burger_grill,9,kE,p,the three cs
-burger_grill,9,mE,p,the trio
-burger_grill,9,mmmE,p,the triple
-burger_grill,9,mmmE,p,the triple w bacon
-burger_grill,9,E,p,the tumbleweed
-burger_grill,9,E,p,the veggie
-chicken_breast,17,t[0.05]*6.sE,r,edible chicken breast
-chicken_breast,17,t[0.05]*6.sE,r,classic chicken breast
-chicken_breast,17,t[0.05]*6.sE,r,plump chicken breast
-chicken_breast,17,t[0.05]*6.sE,r,rich chicken breast
-coffee,,DE,p,black coffee
-coffee,,DcE,p,coffee with cream
-coffee,,Ds*{([1-5]).*?sugar} E,p,coffee with sugar
-coffee,,Dcs*{([1-5]).*?sugar} E,p,fully loaded
-corn_dog,,kmE,p,the classic corn dog
-corn_dog,,kE,p,the gerstmann
-corn_dog,,kE,p,the red dog
-corn_dog,,mE,p,the yellow dog
-dishes,,$run_dishes,,work ticket dishes
-enchiladas,,(DUt)*2 coE,p,double onion
-enchiladas,,(DUt)*2 cE,p,double stack
-enchiladas,,(DUt)*2 ceoE,p,double works
-enchiladas,,DUtcE,p,junior stack
-enchiladas,,DUtcoE,p,junior w onion
-enchiladas,,(DUt)*3 cE,p,triple stack
-enchiladas,,(DUt)*3 ceE,p,triple w egg
-enchiladas,,(DUt)*3 coE,p,triple w onion
-enchiladas,,(DUt)*3 ceoE,p,triple works
-fish,10,LDRsE,r,grey tail fish
-fish,10,LDRsE,r,long body brown raccuda
-fish,10,LDRslE,r,long body brown raccuda w lemon
-fish,10,LDRsE,r,rainbow gruza
-fish,10,LDRslE,r,rainbow gruza w lemon
-fried_chicken,,D[3.5].pE,p,golden fried chicken
-fried_chicken,,D[3.5].pE,p,greasy fried chicken
-fried_rice,8,beoE,r,brown sour rice
-fried_rice,8,bpceoE,r,classic brown rice
-fried_rice,8,fpceoE,r,classic fried rice
-fried_rice,8,wpceoE,r,classic white rice
-fried_rice,8,weonE,r,crunchy white rice
-fried_rice,8,wpceonrE,r,delight white rice
-fried_rice,8,bpceonrE,r,deluxe brown rice
-fried_rice,8,fpceonrsmE,r,gourmet rice
-fried_rice,8,fpcE,r,lite fried rice
-fried_rice,8,wnrE,r,lite rice
-fried_rice,8,fpcersE,r,oriental shrimp rice
-fried_rice,8,feoE,r,sour fried rice
-fried_rice,8,wpceonE,r,special white rice
-fried_rice,8,fpceE,r,sweet fried rice
-fried_rice,8,wenE,r,yellow white rice
-fried_rice,8,fpcerkE,r,oriental chicken rice
-fried_rice,8,fpcemE,r,oriental beef rice
-fried_rice,8,wpceonrsmkE,r,emperor white rice
-fried_rice,8,bpceonrsmkE,r,emperor brown rice
-fries,,D[3.1] paE,p,fast fries
-fries,,D[3.1] pE,p,lite fast fries
-fries,,D[3.1] paE,p,sweet potato fries
-fries,,D[3.1] pasE,p,sweet potato mix fries
-fries,,D[3.1] peE,p,sweet potato sea fries
-fries,,D[3.1] psE,p,sweetest potato fries
-fries,,D[3.1] paE,p,thick cut fries
-fries,,D[3.1] pE,p,thick cut lite fries
-fries,,D[3.1] peE,p,thick cut sea fries
-hash_browns,,D[2.1] psE,p,golden hash browns
-hash_browns,,D[2.1] psE,p,hash patties
-hash_browns,,D[2.1] pE,p,lite golden hash browns
-hash_browns,,D[2.1] pE,p,lite hash patties
-icecream,,vcbhpowE,p,birthday surprise
-icecream,,bbhwnE,p,buttery nuts
-icecream,,vvhE,p,cherry vanilla
-icecream,,cmmhpwnosE,p,chocolate heaven
-icecream,,ccpE,p,chocolate sprinkles
-icecream,,bbhpwnosE,p,deluxe butter pecan
-icecream,,mmhE,p,mint cherry
-icecream,,mmhwnE,p,minty deluxe
-icecream,,ccnE,p,nutty chocolate
-icecream,,mmnE,p,nutty mint
-icecream,,vvnE,p,nutty vanilla
-icecream,,cccE,p,plain chocolate
-icecream,,vvvE,p,plain vanilla
-icecream,,cmbhpwsE,p,the fiesta bowl
-icecream,,vchpE,p,the yin and yang
-icecream,,vcmE,p,trio of delicious
-icecream,,vcE,p,vanilla and chocolate
-icecream,,vvvhpwnosE,p,vanilla dream
-lasagna,12,pscrpscrpscrE,r,classic italian lasagna
-lasagna,12,psmcrpsmcrpscrE,r,meaty rome lasagna
-lasagna,12,psmcrpsvcrpscrE,r,stuffed piza lasagna
-lasagna,12,psvcrpsvcrpscrE,r,vegetable lasagna
-lobster,,bcE,p,buttery cocktail
-lobster,,baE,p,buttery garlic
-lobster,,bbE,p,buttery lobster
-lobster,,E,p,classic lite lobster
-lobster,,bE,p,classic lobster
-lobster,,ccE,p,double cocktail
-lobster,,ssE,p,extreme lobster
-lobster,,acE,p,garlic cocktail
-lobster,,aE,p,garlic lobster
-lobster,,cgE,p,ginger cocktail
-lobster,,gE,p,ginger lobster
-lobster,,gsE,p,lean lobster
-lobster,,cE,p,lobster cocktail
-lobster,,csE,p,lobster nights
-lobster,,asE,p,lobster twist
-lobster,,sE,p,spicy lobster
-lobster,,sbE,p,spicy max
-lobster,,agE,p,tangy garlic
-lobster_grill,13,lE,p,buttery cocktail
-lobster_grill,13,lE,p,buttery garlic
-lobster_grill,13,lE,p,buttery lobster
-lobster_grill,13,lE,p,classic lite lobster
-lobster_grill,13,lE,p,classic lobster
-lobster_grill,13,lE,p,double cocktail
-lobster_grill,13,lE,p,extreme lobster
-lobster_grill,13,lE,p,garlic cocktail
-lobster_grill,13,lE,p,garlic lobster
-lobster_grill,13,lE,p,ginger cocktail
-lobster_grill,13,lE,p,ginger lobster
-lobster_grill,13,lE,p,lean lobster
-lobster_grill,13,lE,p,lobster cocktail
-lobster_grill,13,lE,p,lobster nights
-lobster_grill,13,lE,p,lobster twist
-lobster_grill,13,lE,p,spicy lobster
-lobster_grill,13,lE,p,spicy max
-lobster_grill,13,lE,p,tangy garlic
-metagame,,$run_battle_kitchen_upgrade,,battle kitchen upgrade
-metagame,,t,,check out my picture
-metagame,,.[1],,textin my sweetie
-nachos,,qcubkfsgE,p,all meat special
-nachos,,qbgE,p,beef and beans
-nachos,,qcutobfE,p,beef fajita nachos
-nachos,,qubfgE,p,beefy surpreme
-nachos,,E,p,bowl of chips
-nachos,,qcutobkE,p,chicken fajita nachos
-nachos,,qbrkfE,p,chubigans deluxe special
-nachos,,qcuvjtkfgE,p,classic american
-nachos,,qgE,p,classic nachos
-nachos,,qcusE,p,classic shrimp nachos
-nachos,,qcutobkfE,p,combo fajita nachos
-nachos,,qcuvjtobgsE,p,deluxe shrimp nachos
-nachos,,qcjtobkfsE,p,extreme fajitas
-nachos,,qvjorksE,p,fiery fiesta nachos
-nachos,,qcujoE,p,fiesty nachos
-nachos,,gskfqcuvjtobrE,p,fully loaded nachos
-nachos,,quE,p,guac a nachos
-nachos,,ujtE,p,guac and chips
-nachos,,qvogE,p,italian style nachos
-nachos,,qjE,p,jalanacho
-nachos,,qcvjtobrE,p,mexican fiesta
-nachos,,qubrgE,p,mexican siesta
-nachos,,quvtbrsE,p,new orleans nachos
-nachos,,qbrE,p,rice and beans
-nachos,,qcuvjtogE,p,royal nachos
-nachos,,qcuoE,p,scoops of plenty
-nachos,,qcujtsE,p,shrimp nachos
-nachos,,qcvjtoE,p,sour veggie nachos
-nachos,,qcjtorE,p,spicy rice special
-nachos,,qcjtgE,p,surpreme nachos
-nachos,,qbrgE,p,the chubigans special
-nachos,,qvjtoE,p,veggie nachos
-nachos_grill,9,kfsgE,p,all meat special
-nachos_grill,9,gE,p,beef and beans
-nachos_grill,9,fE,p,beef fajita nachos
-nachos_grill,9,fgE,p,beefy surpreme
-nachos_grill,9,E,p,bowl of chips
-nachos_grill,9,kE,p,chicken fajita nachos
-nachos_grill,9,kfE,p,chubigans deluxe special
-nachos_grill,9,kfgE,p,classic american
-nachos_grill,9,gE,p,classic nachos
-nachos_grill,9,sE,p,classic shrimp nachos
-nachos_grill,9,kfE,p,combo fajita nachos
-nachos_grill,9,gsE,p,deluxe shrimp nachos
-nachos_grill,9,kfsE,p,extreme fajitas
-nachos_grill,9,ksE,p,fiery fiesta nachos
-nachos_grill,9,E,p,fiesty nachos
-nachos_grill,9,gskfE,p,fully loaded nachos
-nachos_grill,9,E,p,guac a nachos
-nachos_grill,9,E,p,guac and chips
-nachos_grill,9,gE,p,italian style nachos
-nachos_grill,9,E,p,jalanacho
-nachos_grill,9,E,p,mexican fiesta
-nachos_grill,9,gE,p,mexican siesta
-nachos_grill,9,sE,p,new orleans nachos
-nachos_grill,9,E,p,rice and beans
-nachos_grill,9,gE,p,royal nachos
-nachos_grill,9,E,p,scoops of plenty
-nachos_grill,9,sE,p,shrimp nachos
-nachos_grill,9,E,p,sour veggie nachos
-nachos_grill,9,E,p,spicy rice special
-nachos_grill,9,gE,p,surpreme nachos
-nachos_grill,9,gE,p,the chubigans special
-nachos_grill,9,E,p,veggie nachos
-pancakes,,pplbE,p,blue double stack
-pancakes,,ppbE,p,double desert
-pancakes,,eshE,p,double header
-pancakes,,ppebE,p,double pecan stack
-pancakes,,ppsbE,p,double strawberry
-pancakes,,pbE,p,dry single
-pancakes,,ppmbE,p,dual maple stack
-pancakes,,plbE,p,junior blueberry
-pancakes,,pmbE,p,junior classic
-pancakes,,pebE,p,junior pecan
-pancakes,,psbE,p,junior redberry
-pancakes,,ppeE,p,lite double pecan
-pancakes,,ppmE,p,lite maple classic
-pancakes,,pE,p,the lonely pancake
-pancakes,,ppplbE,p,triple berry blue
-pancakes,,pppbE,p,triple dry
-pancakes,,pppmbE,p,triple maple
-pancakes,,pppebE,p,triple pecan stack
-pancakes,,pppsbE,p,triple red stack
-pancakes_grill,8,ppE,p,blue double stack
-pancakes_grill,8,ppE,p,double desert
-pancakes_grill,8,E,p,double header
-pancakes_grill,8,ppE,p,double pecan stack
-pancakes_grill,8,ppE,p,double strawberry
-pancakes_grill,8,pE,p,dry single
-pancakes_grill,8,ppE,p,dual maple stack
-pancakes_grill,8,pE,p,junior blueberry
-pancakes_grill,8,pE,p,junior classic
-pancakes_grill,8,pE,p,junior pecan
-pancakes_grill,8,pE,p,junior redberry
-pancakes_grill,8,ppE,p,lite double pecan
-pancakes_grill,8,ppE,p,lite maple classic
-pancakes_grill,8,pE,p,the lonely pancake
-pancakes_grill,8,pppE,p,triple berry blue
-pancakes_grill,8,pppE,p,triple dry
-pancakes_grill,8,pppE,p,triple maple
-pancakes_grill,8,pppE,p,triple pecan stack
-pancakes_grill,8,pppE,p,triple red stack
-pasta,,cE,p,cheese pasta
-pasta,,ckbE,p,cheesy chicken pasta
-pasta,,cmkbpusoE,p,cheesy deluxe pasta
-pasta,,cmkbE,p,cheesy meaty pasta
-pasta,,coE,p,cheesy onion pasta
-pasta,,citE,p,cheesy tomato
-pasta,,cpusoE,p,cheesy veggie pasta
-pasta,,gkuiE,p,chicken pesto
-pasta,,rmE,p,classic spaghetti
-pasta,,wksE,p,creamy alfredo
-pasta,,wmkbuE,p,creamy meat pasta
-pasta,,wpusoE,p,creamy veggie pasta
-pasta,,psitE,p,dry veggie pasta
-pasta,,rbpE,p,hot bacon pasta
-pasta,,gmkbpusoitE,p,manhattan pesto
-pasta,,rmkbpusoE,p,red deluxe pasta
-pasta,,rpitE,p,red pasta rally
-pasta,,rpusoE,p,red veggie pasta
-pasta,,rmbusE,p,spaghetti deluxe
-pasta,,gmE,p,spaghetti pesto
-pasta,,rbiE,p,spicy bacon pasta
-pasta,,rmiE,p,spicy spaghetti
-pasta,,wkbpuiE,p,the carbonara
-pasta,,mtE,p,the dry tomato
-pasta,,rmkbE,p,the meaty pasta
-pasta,,gsiE,p,verde pesto
-pasta_grill,12,rE,p,cheese pasta
-pasta_grill,12,rE,p,cheesy chicken pasta
-pasta_grill,12,rE,p,cheesy deluxe pasta
-pasta_grill,12,rE,p,cheesy meaty pasta
-pasta_grill,12,rE,p,cheesy onion pasta
-pasta_grill,12,rE,p,cheesy tomato
-pasta_grill,12,rE,p,cheesy veggie pasta
-pasta_grill,12,rE,p,chicken pesto
-pasta_grill,12,rE,p,classic spaghetti
-pasta_grill,12,rE,p,creamy alfredo
-pasta_grill,12,rE,p,creamy meat pasta
-pasta_grill,12,rE,p,creamy veggie pasta
-pasta_grill,12,rE,p,dry veggie pasta
-pasta_grill,12,rE,p,hot bacon pasta
-pasta_grill,12,rE,p,manhattan pesto
-pasta_grill,12,rE,p,red deluxe pasta
-pasta_grill,12,rE,p,red pasta rally
-pasta_grill,12,rE,p,red veggie pasta
-pasta_grill,12,rE,p,spaghetti deluxe
-pasta_grill,12,rE,p,spaghetti pesto
-pasta_grill,12,rE,p,spicy bacon pasta
-pasta_grill,12,rE,p,spicy spaghetti
-pasta_grill,12,rE,p,the carbonara
-pasta_grill,12,rE,p,the dry tomato
-pasta_grill,12,rE,p,the meaty pasta
-pasta_grill,12,rE,p,verde pesto
-pizza,10,gcuvnioE,r,all veggie pesto pizza
-pizza,10,gcauE,r,anchovy pesto pizza
-pizza,10,tcaE,r,anchovy pizza
-pizza,10,tcbuE,r,bacon and mushroom pizza
-pizza,10,tcE,r,cheese pizza
-pizza,10,cE,r,cheesy bread
-pizza,10,gcE,r,cheesy pesto pizza
-pizza,10,tauE,r,dairy lite pizza
-pizza,10,tcaunvE,r,deluxe anchovy pizza
-pizza,10,tcpsbuvnE,r,deluxe pizza
-pizza,10,tcpsbhE,r,extra meat lovers pizza
-pizza,10,gcpuvnoE,r,italian pesto pizza
-pizza,10,tcsuvnE,r,italian pizza
-pizza,10,gcpsbhE,r,meat lovers pesto pizza
-pizza,10,tcsE,r,meat pizza
-pizza,10,tcpsbE,r,meatlovers pizza
-pizza,10,tcpsbaE,r,meaty anchovy pizza
-pizza,10,tcvnE,r,olives and onions pizza
-pizza,10,tcpsE,r,p m pizza
-pizza,10,tcpE,r,pepperoni pizza
-pizza,10,gcpE,r,pesto pepperoni pizza
-pizza,10,gcbhunE,r,piggy pesto pizza
-pizza,10,gchiE,r,pineapple and ham pesto pizza
-pizza,10,tchiE,r,pineapple and ham pizza
-pizza,10,gcaphsbuvnioE,r,super deluxe pesto pizza
-pizza,10,tcpsbahuvniE,r,super surpreme pizza
-pizza,10,tcuviE,r,sweet veggie p
-pizza,10,gcuviE,r,sweet veggie pesto p
-pizza,10,tcpsbahoE,r,the all meat tomato pizza
-pizza,10,tcahuE,r,the h a m pizza
-pizza,10,tcpbhniE,r,the hawaiian pizza
-pizza,10,tcpbnE,r,the pcgb pizza
-pizza,10,tcaoE,r,tomato anchovy pizza
-pizza,10,tcioE,r,tomato pineapple pizza
-pizza,10,tcpoE,r,tomato lovers pizza
-pizza,10,tcuvnE,r,veggie pizza
-pretzel,,cE,p,cinnamon pretzel
-pretzel,,bE,p,the buttery curves
-pretzel,,sbE,p,the classic pretzel
-pretzel,,E,p,the dry twister
-pretzel,,sE,p,the salty knot
-pretzel,,bcE,p,the sweet twist
-robbery,,$run_robbery,,robbery witness criminal description
-rodents,,R.D.c.s.[0.5],,work ticket rodents
-salad,,tcbomgE,p,a thousand flavors
-salad,,rcE,p,cheesy leaves
-salad,,coE,p,cheesy peppers
-salad,,vcE,p,cheesy vinaigrette
-salad,,rcbE,p,house salad
-salad,,rcE,p,kids delight
-salad,,rcoE,p,pepper ranch
-salad,,rgE,p,salad verde
-salad,,cgE,p,the big salad
-salad,,mgE,p,the dry deluxe
-salad,,gE,p,the dry greens
-salad,,rcbomgE,p,the manhattan
-salad,,rcboE,p,the mix salad
-salad,,vcbomgE,p,the oil bleu
-salad,,vmgE,p,the oily greens
-salad,,vcoE,p,the oily pepper
-salad,,tcoE,p,the thousand peppers
-salad,,tcgE,p,the thousand salad
-salad,,tcbE,p,thousand house
-salad,,tcmE,p,thousand tomatoes
-salad,,tcbogE,p,three thousand
-salad,,rcmE,p,tomato ranch
-salad,,vcobmE,p,vinaigrette classic
-salad,,vcbE,p,vinaigrette house
-shish_kabob,10,usoruskmE,r,american kabob
-shish_kabob,10,ktkgkrktE,r,chicken kabob
-shish_kabob,10,tmgrtkgrE,r,classic kabob
-shish_kabob,10,sogtsogkE,r,crazy kabob
-shish_kabob,10,kgzukgzuE,r,green kabob
-shish_kabob,10,koptkopmE,r,hawaiian kabob
-shish_kabob,10,mokomgkoE,r,juicy kabob
-shish_kabob,10,ktgropskE,r,kabob platter
-shish_kabob,10,ptkmgropE,r,kabob sampler
-shish_kabob,10,tgputgpuE,r,kabob special
-shish_kabob,10,tmkgtmkrE,r,kabobber
-shish_kabob,10,kgrompmpE,r,kabomber
-shish_kabob,10,mktmkgmkE,r,meaty kabob
-shish_kabob,10,mzsmzumzE,r,odessa kabob
-shish_kabob,10,otokogorE,r,onion kabob
-shish_kabob,10,grtgrmgrE,r,pepper kabob
-shish_kabob,10,ptpmpkpoE,r,pineapple kabob
-shish_kabob,10,trmtrgtrE,r,red kabob
-shish_kabob,10,sposprsgE,r,squash kabob
-shish_kabob,10,ogrogrotE,r,tangy kabob
-shish_kabob,10,tmutkutzE,r,tomato kabob
-shish_kabob,10,mogrkogrE,r,tower kabob
-shish_kabob,10,uzoguzotE,r,veggie kabob
-shish_kabob,10,spmspkspE,r,yellow kabob
-soda,,UUUDiE,p,jumbo cola
-soda,,UUUDE,p,jumbo cola no ice
-soda,,UUUDfE,p,jumbo cola no ice w flavor blast
-soda,,UUUDifE,p,jumbo cola w flavor blast
-soda,,RRRRUUUDiE,p,jumbo diet
-soda,,RRRRUUUDifE,p,jumbo diet w flavor blast
-soda,,RRUUUDiE,p,jumbo grape
-soda,,RRUUUDifE,p,jumbo grape w flavor blast
-soda,,RUUUDiE,p,jumbo tea
-soda,,RUUUDifE,p,jumbo tea w flavor blast
-soda,,RRRUUUDiE,p,jumbo water
-soda,,RRRUUUDifE,p,jumbo water w flavor blast
-soda,,UUDiE,p,large cola
-soda,,UUDE,p,large cola no ice
-soda,,UUDifE,p,large cola w flavor blast
-soda,,RRRRUUDiE,p,large diet
-soda,,RRRRUUDifE,p,large diet w flavor blast
-soda,,RRUUDiE,p,large grape
-soda,,RRUUDifE,p,large grape w flavor blast
-soda,,RUUDiE,p,large tea
-soda,,RRRUUDiE,p,large water
-soda,,UDiE,p,medium cola
-soda,,UDE,p,medium cola no ice
-soda,,UDifE,p,medium cola w flavor blast
-soda,,RRRRUDiE,p,medium diet
-soda,,RRRRUDifE,p,medium diet w flavor blast
-soda,,RRUDiE,p,medium grape
-soda,,RRUDifE,p,medium grape w flavor blast
-soda,,RUDiE,p,medium tea
-soda,,RRRUDiE,p,medium water
-soda,,DiE,p,small cola
-soda,,DE,p,small cola no ice
-soda,,DfE,p,small cola no ice w flavor blast
-soda,,DifE,p,small cola w flavor blast
-soda,,RRRRDiE,p,small diet
-soda,,RRRRDifE,p,small diet w flavor blast
-soda,,RRDiE,p,small grape
-soda,,RRDifE,p,small grape w flavor blast
-soda,,RDiE,p,small tea
-soda,,RDifE,p,small tea w flavor blast
-soda,,RRRDiE,p,small water
-soda,,RRRDifE,p,small water w flavor blast
-sopapillas,,D[2.5].pE,p,delicious lite sopapillas
-sopapillas,,D[2.5].psE,p,delicious sopapillas
-soup,14,kwsp.aD[0.1]*3 .lD[0.1]*3 .E,r,baristobo soup
-soup,14,sbc.aD[0.1]*3 .r.E,r,broccoli soup
-soup,14,kwu.yD[0.1]*3 .E,r,chicken noodle soup
-soup,14,spbc.E,r,creamy potato
-soup,14,kmihpc.yD[0.1]*3 .g.E,r,hearty meat soup
-soup,14,mibc.tD[0.1]*3 .zD[0.1]*3 .o.E,r,italian soup
-soup,14,kmiusb.yD[0.1]*3 .E,r,louisiana delight
-soup,14,isp.yD[0.1]*3 .eE,r,one bean soup
-soup,14,wus.tD[0.1]*3 .aD[0.1]*3 .yD[0.1]*3 .E,r,soup du jour
-soup,14,hwc.lD[0.1]*3 .zD[0.1]*3 .go.E,r,suino stew
-soup,14,tD[0.1]*3 .aD[0.1]*3 .yD[0.1]*3 .lD[0.1]*3 .d.E,r,vegetable soup
-steak,20,sjjbbE,r,baconesque
-steak,20,sjjcE,r,citrus steak
-steak,20,sssjE,r,classic steak
-steak,20,sshhjjjjE,r,hickory steak
-steak,20,sdjccE,r,smokey orange steak
-steak,20,sjppbbE,r,spicy baconesque
-steak,20,ssdpppjjE,r,spicy smokey steak
-steak,20,sppppjjE,r,spicy steak
-steak,20,sppE,r,the dry spicy steak
-steak,20,ssjjppbbddhhE,r,west texas steak
-sushi,,tummyyyyE,p,bail tray
-sushi,,rrttssmyE,p,blue oil delight
-sushi,,errruusmE,p,chomper plate
-sushi,,uuummmygE,p,crunchy plate
-sushi,,eerrtussE,p,delight platter
-sushi,,eettuussE,p,east sampler
-sushi,,eeeeertuE,p,ebi special
-sushi,,ertusmygE,p,emperor special
-sushi,,eeettsssE,p,ets tray
-sushi,,erttusssE,p,fives delight
-sushi,,smmyygggE,p,fortune
-sushi,,usmyggggE,p,golden tray
-sushi,,eerrtummE,p,gourmet platter
-sushi,,ertussmyE,p,gourmet sampler
-sushi,,uusmmmmmE,p,mackerel special
-sushi,,eerrrttuE,p,mixed delicious
-sushi,,eeerrtuuE,p,ocean plate
-sushi,,errtuussE,p,plate of great
-sushi,,eettssmmE,p,rice sampler
-sushi,,eeerrrrtE,p,roe special
-sushi,,tttsyyygE,p,royal debut
-sushi,,erusssssE,p,salmon special
-sushi,,eeetuuyyE,p,sea of oceans
-sushi,,errtttuuE,p,sea spirit
-sushi,,rrrttussE,p,shogun plate
-sushi,,eerummygE,p,slam platter
-sushi,,eertusmmE,p,special sampler
-sushi,,eerrttuuE,p,standard sampler
-sushi,,etuusmmmE,p,the mix sushi
-sushi,,eeetsgggE,p,the mysteries
-sushi,,ertttttuE,p,toro special
-sushi,,rrruumygE,p,tray platter plate
-sushi,,ertuuuuuE,p,tuna platter
-sushi,,rmygggggE,p,unagi special
-sushi,,tsmyyyyyE,p,yellowtail special
-sushi,,rruusyyyE,p,yum tray
-toilet,,D.s.[0.5],,work ticket clean
-trash,,$run_trash,,work ticket trash
-wine,,"w U[0.03,0.02]*30 E",p,casu marzu
-wine,,"wwww U[0.03,0.02]*30 E",p,deckard vineyards
-wine,,"www U[0.03,0.02]*30 E",p,elk
-wine,,"U[0.03,0.02]*30 E",p,le cheap valu wine
-wine,,"ww U[0.03,0.02]*30 E",p,serpent beard
+food,cooking_time,recipe,finished_at,name
+baked_potato,,rqE,p,Broccoli Cheesy Potato
+baked_potato,,borqE,p,Broccoli Cheesy Surpreme Potato
+baked_potato,,cybpqE,p,Cheesy Deluxe Potato
+baked_potato,,yhbE,p,Chives Bacon Potato
+baked_potato,,csyE,p,Classic Baked Potato
+baked_potato,,csybE,p,Classic Potato w Bacon
+baked_potato,,csyhboE,p,Deluxe Potato
+baked_potato,,csyhbovprmE,p,Fully Loaded Potato
+baked_potato,,syhbovprqmE,p,Fully Loaded Potato w Queso
+baked_potato,,cshovprE,p,Green Potato
+baked_potato,,csE,p,Lite N Cheesy Potato
+baked_potato,,shoE,p,Lite Potato
+baked_potato,,csbmE,p,Meat Classic Potato
+baked_potato,,prqmE,p,Meaty Broccoli Potato
+baked_potato,,hbpqmE,p,Meaty Deluxe Potato
+baked_potato,,yE,p,Plain Potato
+baked_potato,,ymE,p,Simply Meat Potato
+baked_potato,,soE,p,Sour Potato
+baked_potato,,sboE,p,Sour Potato w Bacon
+baked_potato,,csybopE,p,Spicy Bacon Potato
+baked_potato,,csypE,p,Spicy Classic Potato
+baked_potato,,cyhbovpE,p,Spicy Deluxe Potato
+baked_potato,,csyvpE,p,Spicy Olive Potato
+baked_potato,,E,p,The Dry Potato
+banana_foster,,bs .[2.7] aE,p,Bananas Foster
+banana_foster,,bs .[2.7] arfE,p,Bananas Foster Flambe
+beer,,D[1.4] E,p,The Brewsky
+beer,,D[1.4] E,p,The Rich Brewsky
+breakfast_sandwich,8,scE,r,Cheesy AM
+breakfast_sandwich,8,escE,r,Cheesy Deluxe
+breakfast_sandwich,8,esbE,r,Double AM
+breakfast_sandwich,8,eE,r,Egg Biscuit
+breakfast_sandwich,8,heE,r,Ham Egg
+breakfast_sandwich,8,sbE,r,Morning Fuel
+breakfast_sandwich,8,hE,r,My Hammy
+breakfast_sandwich,8,ebchE,r,Sherrisoda Special
+breakfast_sandwich,8,sE,r,Sunrise Sandwich
+breakfast_sandwich,8,ebE,r,The Classic
+breakfast_sandwich,8,esE,r,The Deluxe
+breakfast_sandwich,8,esbcE,r,The Early Bird
+breakfast_sandwich,8,esbchE,r,The Megabiscuit
+breakfast_sandwich,8,bcE,r,Tower Biscuit
+burger,,bltE,p,BLT
+burger,,bltcE,p,BLT and C
+burger,,mlbcsE,p,Chubigans Special
+burger,,kmbcosE,p,The American
+burger,,moE,p,The Aroma
+burger,,blotE,p,The BLOT
+burger,,cblotE,p,The C-BLOT
+burger,,bcsE,p,The Cheesy Bread
+burger,,kpE,p,The Chick-a
+burger,,kltpE,p,The Chick-a Deluxe
+burger,,kbcpsE,p,The Chick-a Melt
+burger,,klbctpE,p,The Chick-a Surpreme
+burger,,mmlbctE,p,The Double
+burger,,kklpE,p,The Double Cs
+burger,,mmcsE,p,The Double Melt
+burger,,mklpbocstE,p,The EVERYTHiNG
+burger,,ltpoE,p,The Extra Veggies
+burger,,mlpE,p,The Greens
+burger,,mmbbcE,p,The HEARTSTOPPER
+burger,,mlosE,p,The Holy Burger
+burger,,mlE,p,The Lite Delight
+burger,,mE,p,The Lonely Patty
+burger,,kmbE,p,The Meat Lovers
+burger,,mcsE,p,The MELT
+burger,,kmlctE,p,The MIX
+burger,,mlbctE,p,The Original
+burger,,mmbpE,p,The P-D
+burger,,mcpE,p,The Pickler
+burger,,mmbcoE,p,The POWER
+burger,,mtE,p,The RED
+burger,,mbcctE,p,The Ryan Davis
+burger,,mlbctpE,p,The Stacked
+burger,,mtpoE,p,The Super Sour
+burger,,mltsE,p,The Swiss
+burger,,kcsE,p,The Three Cs
+burger,,mtpE,p,The Trio
+burger,,mmmcE,p,The Triple
+burger,,mmmbcE,p,The Triple w Bacon
+burger,,bcE,p,The Tumbleweed
+burger,,ltpE,p,The Veggie
+burger_grill,9,E,p,BLT
+burger_grill,9,E,p,BLT and C
+burger_grill,9,mE,p,Chubigans Special
+burger_grill,9,kmE,p,The American
+burger_grill,9,mE,p,The Aroma
+burger_grill,9,E,p,The BLOT
+burger_grill,9,E,p,The C Blot
+burger_grill,9,E,p,The Cheesy Bread
+burger_grill,9,kE,p,The Chick-a
+burger_grill,9,kE,p,The Chick-a Deluxe
+burger_grill,9,kE,p,The Chick-a Melt
+burger_grill,9,kE,p,The Chick-a Surpreme
+burger_grill,9,mmE,p,The Double
+burger_grill,9,kkE,p,The Double Cs
+burger_grill,9,mmE,p,The Double Melt
+burger_grill,9,mkE,p,The EVERYTHiNG
+burger_grill,9,E,p,The Extra Veggies
+burger_grill,9,mE,p,The Greens
+burger_grill,9,mmE,p,The HEARTSTOPPER
+burger_grill,9,mE,p,The Holy Burger
+burger_grill,9,mE,p,The Lite Delight
+burger_grill,9,mE,p,The Lonely Patty
+burger_grill,9,kmE,p,The Meat Lovers
+burger_grill,9,mE,p,The MELT
+burger_grill,9,kmE,p,The MIX
+burger_grill,9,mE,p,The Original
+burger_grill,9,mmE,p,The P D
+burger_grill,9,mE,p,The Pickler
+burger_grill,9,mmE,p,The POWER
+burger_grill,9,mE,p,The RED
+burger_grill,9,mE,p,The Ryan Davis
+burger_grill,9,mE,p,The Stacked
+burger_grill,9,mE,p,The Super Sour
+burger_grill,9,mE,p,The Swiss
+burger_grill,9,kE,p,The Three Cs
+burger_grill,9,mE,p,The Trio
+burger_grill,9,mmmE,p,The Triple
+burger_grill,9,mmmE,p,The Triple w Bacon
+burger_grill,9,E,p,The Tumbleweed
+burger_grill,9,E,p,The Veggie
+chicken_breast,17,t[0.05]*6.sE,r,Edible Chicken Breast
+chicken_breast,17,t[0.05]*6.sE,r,Classic Chicken Breast
+chicken_breast,17,t[0.05]*6.sE,r,Plump Chicken Breast
+chicken_breast,17,t[0.05]*6.sE,r,Rich Chicken Breast
+coffee,,DE,p,Black Coffee
+coffee,,DcE,p,Coffee With Cream
+coffee,,Ds*{([1-5]).*?sugar} E,p,Coffee With Sugar
+coffee,,Dcs*{([1-5]).*?sugar} E,p,Fully Loaded
+corn_dog,,kmE,p,The Classic Corn Dog
+corn_dog,,kE,p,The Gerstmann
+corn_dog,,kE,p,The Red Dog
+corn_dog,,mE,p,The Yellow Dog
+dishes,,$run_dishes,,Work Ticket Dishes
+enchiladas,,(DUt)*2 coE,p,Double Onion
+enchiladas,,(DUt)*2 cE,p,Double Stack
+enchiladas,,(DUt)*2 ceoE,p,Double Works
+enchiladas,,DUtcE,p,Junior Stack
+enchiladas,,DUtcoE,p,Junior w Onion
+enchiladas,,(DUt)*3 cE,p,Triple Stack
+enchiladas,,(DUt)*3 ceE,p,Triple w Egg
+enchiladas,,(DUt)*3 coE,p,Triple w Onion
+enchiladas,,(DUt)*3 ceoE,p,Triple Works
+fish,10,LDRsE,r,Grey Tail Fish
+fish,10,LDRsE,r,Long Body Brown Raccuda
+fish,10,LDRslE,r,Long Body Brown Raccuda w Lemon
+fish,10,LDRsE,r,Rainbow Gruza
+fish,10,LDRslE,r,Rainbow Gruza w Lemon
+fried_chicken,,D[3.5].pE,p,Golden Fried Chicken
+fried_chicken,,D[3.5].pE,p,Greasy Fried Chicken
+fried_rice,8,beoE,r,Brown Sour Rice
+fried_rice,8,bpceoE,r,Classic Brown Rice
+fried_rice,8,fpceoE,r,Classic Fried Rice
+fried_rice,8,wpceoE,r,Classic White Rice
+fried_rice,8,weonE,r,Crunchy White Rice
+fried_rice,8,wpceonrE,r,Delight White Rice
+fried_rice,8,bpceonrE,r,Deluxe Brown Rice
+fried_rice,8,fpceonrsmE,r,Gourmet Rice
+fried_rice,8,fpcE,r,Lite Fried Rice
+fried_rice,8,wnrE,r,Lite Rice
+fried_rice,8,fpcersE,r,Oriental Shrimp Rice
+fried_rice,8,feoE,r,Sour Fried Rice
+fried_rice,8,wpceonE,r,Special White Rice
+fried_rice,8,fpceE,r,Sweet Fried Rice
+fried_rice,8,wenE,r,Yellow White Rice
+fried_rice,8,fpcerkE,r,Oriental Chicken Rice
+fried_rice,8,fpcemE,r,Oriental Beef Rice
+fried_rice,8,wpceonrsmkE,r,Emperor White Rice
+fried_rice,8,bpceonrsmkE,r,Emperor Brown Rice
+fries,,D[3.1] paE,p,Fast Fries
+fries,,D[3.1] pE,p,Lite Fast Fries
+fries,,D[3.1] paE,p,Sweet Potato Fries
+fries,,D[3.1] pasE,p,Sweet Potato Mix Fries
+fries,,D[3.1] peE,p,Sweet Potato Sea Fries
+fries,,D[3.1] psE,p,Sweetest Potato Fries
+fries,,D[3.1] paE,p,Thick Cut Fries
+fries,,D[3.1] pE,p,Thick Cut Lite Fries
+fries,,D[3.1] peE,p,Thick Cut Sea Fries
+hash_browns,,D[2.1] psE,p,Golden Hash Browns
+hash_browns,,D[2.1] psE,p,Hash Patties
+hash_browns,,D[2.1] pE,p,Lite Golden Hash Browns
+hash_browns,,D[2.1] pE,p,Lite Hash Patties
+icecream,,vcbhpowE,p,Birthday Surprise
+icecream,,bbhwnE,p,Buttery Nuts
+icecream,,vvhE,p,Cherry Vanilla
+icecream,,cmmhpwnosE,p,Chocolate Heaven
+icecream,,ccpE,p,Chocolate Sprinkles
+icecream,,bbhpwnosE,p,Deluxe Butter Pecan
+icecream,,mmhE,p,Mint Cherry
+icecream,,mmhwnE,p,Minty Deluxe
+icecream,,ccnE,p,Nutty Chocolate
+icecream,,mmnE,p,Nutty Mint
+icecream,,vvnE,p,Nutty Vanilla
+icecream,,cccE,p,Plain Chocolate
+icecream,,vvvE,p,Plain Vanilla
+icecream,,cmbhpwsE,p,The Fiesta Bowl
+icecream,,vchpE,p,The Yin and Yang
+icecream,,vcmE,p,Trio of Delicious
+icecream,,vcE,p,Vanilla and Chocolate
+icecream,,vvvhpwnosE,p,Vanilla Dream
+lasagna,12,pscrpscrpscrE,r,Classic Italian Lasagna
+lasagna,12,psmcrpsmcrpscrE,r,Meaty Rome Lasagna
+lasagna,12,psmcrpsvcrpscrE,r,Stuffed Piza Lasagna
+lasagna,12,psvcrpsvcrpscrE,r,Vegetable Lasagna
+lobster,,bcE,p,Buttery Cocktail
+lobster,,baE,p,Buttery Garlic
+lobster,,bbE,p,Buttery Lobster
+lobster,,E,p,Classic Lite Lobster
+lobster,,bE,p,Classic Lobster
+lobster,,ccE,p,Double Cocktail
+lobster,,ssE,p,Extreme Lobster
+lobster,,acE,p,Garlic Cocktail
+lobster,,aE,p,Garlic Lobster
+lobster,,cgE,p,Ginger Cocktail
+lobster,,gE,p,Ginger Lobster
+lobster,,gsE,p,Lean Lobster
+lobster,,cE,p,Lobster Cocktail
+lobster,,csE,p,Lobster Nights
+lobster,,asE,p,Lobster Twist
+lobster,,sE,p,Spicy Lobster
+lobster,,sbE,p,Spicy Max
+lobster,,agE,p,Tangy Garlic
+lobster_grill,13,lE,p,Buttery Cocktail
+lobster_grill,13,lE,p,Buttery Garlic
+lobster_grill,13,lE,p,Buttery Lobster
+lobster_grill,13,lE,p,Classic Lite Lobster
+lobster_grill,13,lE,p,Classic Lobster
+lobster_grill,13,lE,p,Double Cocktail
+lobster_grill,13,lE,p,Extreme Lobster
+lobster_grill,13,lE,p,Garlic Cocktail
+lobster_grill,13,lE,p,Garlic Lobster
+lobster_grill,13,lE,p,Ginger Cocktail
+lobster_grill,13,lE,p,Ginger Lobster
+lobster_grill,13,lE,p,Lean Lobster
+lobster_grill,13,lE,p,Lobster Cocktail
+lobster_grill,13,lE,p,Lobster Nights
+lobster_grill,13,lE,p,Lobster Twist
+lobster_grill,13,lE,p,Spicy Lobster
+lobster_grill,13,lE,p,Spicy Max
+lobster_grill,13,lE,p,Tangy Garlic
+metagame,,$run_battle_kitchen_upgrade,,Battle Kitchen Upgrade
+metagame,,t,,Check Out My Picture
+metagame,,.[1],,Textin My Sweetie
+nachos,,qcubkfsgE,p,All Meat Special
+nachos,,qbgE,p,Beef and Beans
+nachos,,qcutobfE,p,Beef Fajita Nachos
+nachos,,qubfgE,p,Beefy Surpreme
+nachos,,E,p,Bowl of Chips
+nachos,,qcutobkE,p,Chicken Fajita Nachos
+nachos,,qbrkfE,p,Chubigans Deluxe Special
+nachos,,qcuvjtkfgE,p,Classic American
+nachos,,qgE,p,Classic Nachos
+nachos,,qcusE,p,Classic Shrimp Nachos
+nachos,,qcutobkfE,p,Combo Fajita Nachos
+nachos,,qcuvjtobgsE,p,Deluxe Shrimp Nachos
+nachos,,qcjtobkfsE,p,EXTREME FAJITAS
+nachos,,qvjorksE,p,Fiery Fiesta Nachos
+nachos,,qcujoE,p,Fiesty Nachos
+nachos,,gskfqcuvjtobrE,p,Fully Loaded Nachos
+nachos,,quE,p,Guac A Nachos
+nachos,,ujtE,p,Guac and Chips
+nachos,,qvogE,p,Italian Style Nachos
+nachos,,qjE,p,Jalanacho
+nachos,,qcvjtobrE,p,Mexican Fiesta
+nachos,,qubrgE,p,Mexican Siesta
+nachos,,quvtbrsE,p,New Orleans Nachos
+nachos,,qbrE,p,Rice and Beans
+nachos,,qcuvjtogE,p,Royal Nachos
+nachos,,qcuoE,p,Scoops of Plenty
+nachos,,qcujtsE,p,Shrimp Nachos
+nachos,,qcvjtoE,p,Sour Veggie Nachos
+nachos,,qcjtorE,p,Spicy Rice Special
+nachos,,qcjtgE,p,Surpreme Nachos
+nachos,,qbrgE,p,The Chubigans Special
+nachos,,qvjtoE,p,Veggie Nachos
+nachos_grill,9,kfsgE,p,All Meat Special
+nachos_grill,9,gE,p,Beef and Beans
+nachos_grill,9,fE,p,Beef Fajita Nachos
+nachos_grill,9,fgE,p,Beefy Surpreme
+nachos_grill,9,E,p,Bowl of Chips
+nachos_grill,9,kE,p,Chicken Fajita Nachos
+nachos_grill,9,kfE,p,Chubigans Deluxe Special
+nachos_grill,9,kfgE,p,Classic American
+nachos_grill,9,gE,p,Classic Nachos
+nachos_grill,9,sE,p,Classic Shrimp Nachos
+nachos_grill,9,kfE,p,Combo Fajita Nachos
+nachos_grill,9,gsE,p,Deluxe Shrimp Nachos
+nachos_grill,9,kfsE,p,EXTREME FAJITAS
+nachos_grill,9,ksE,p,Fiery Fiesta Nachos
+nachos_grill,9,E,p,Fiesty Nachos
+nachos_grill,9,gskfE,p,Fully Loaded Nachos
+nachos_grill,9,E,p,Guac A Nachos
+nachos_grill,9,E,p,Guac and Chips
+nachos_grill,9,gE,p,Italian Style Nachos
+nachos_grill,9,E,p,Jalanacho
+nachos_grill,9,E,p,Mexican Fiesta
+nachos_grill,9,gE,p,Mexican Siesta
+nachos_grill,9,sE,p,New Orleans Nachos
+nachos_grill,9,E,p,Rice and Beans
+nachos_grill,9,gE,p,Royal Nachos
+nachos_grill,9,E,p,Scoops of Plenty
+nachos_grill,9,sE,p,Shrimp Nachos
+nachos_grill,9,E,p,Sour Veggie Nachos
+nachos_grill,9,E,p,Spicy Rice Special
+nachos_grill,9,gE,p,Surpreme Nachos
+nachos_grill,9,gE,p,The Chubigans Special
+nachos_grill,9,E,p,Veggie Nachos
+pancakes,,pplbE,p,Blue Double Stack
+pancakes,,ppbE,p,Double Desert
+pancakes,,eshE,p,Double Header
+pancakes,,ppebE,p,Double Pecan Stack
+pancakes,,ppsbE,p,Double Strawberry
+pancakes,,pbE,p,Dry Single
+pancakes,,ppmbE,p,Dual Maple Stack
+pancakes,,plbE,p,Junior Blueberry
+pancakes,,pmbE,p,Junior Classic
+pancakes,,pebE,p,Junior Pecan
+pancakes,,psbE,p,Junior Redberry
+pancakes,,ppeE,p,Lite Double Pecan
+pancakes,,ppmE,p,Lite Maple Classic
+pancakes,,pE,p,The Lonely Pancake
+pancakes,,ppplbE,p,Triple Berry Blue
+pancakes,,pppbE,p,Triple Dry
+pancakes,,pppmbE,p,Triple Maple
+pancakes,,pppebE,p,Triple Pecan Stack
+pancakes,,pppsbE,p,Triple Red Stack
+pancakes_grill,8,ppE,p,Blue Double Stack
+pancakes_grill,8,ppE,p,Double Desert
+pancakes_grill,8,E,p,Double Header
+pancakes_grill,8,ppE,p,Double Pecan Stack
+pancakes_grill,8,ppE,p,Double Strawberry
+pancakes_grill,8,pE,p,Dry Single
+pancakes_grill,8,ppE,p,Dual Maple Stack
+pancakes_grill,8,pE,p,Junior Blueberry
+pancakes_grill,8,pE,p,Junior Classic
+pancakes_grill,8,pE,p,Junior Pecan
+pancakes_grill,8,pE,p,Junior Redberry
+pancakes_grill,8,ppE,p,Lite Double Pecan
+pancakes_grill,8,ppE,p,Lite Maple Classic
+pancakes_grill,8,pE,p,The Lonely Pancake
+pancakes_grill,8,pppE,p,Triple Berry Blue
+pancakes_grill,8,pppE,p,Triple Dry
+pancakes_grill,8,pppE,p,Triple Maple
+pancakes_grill,8,pppE,p,Triple Pecan Stack
+pancakes_grill,8,pppE,p,Triple Red Stack
+pasta,,cE,p,Cheese Pasta
+pasta,,ckbE,p,Cheesy Chicken Pasta
+pasta,,cmkbpusoE,p,Cheesy Deluxe Pasta
+pasta,,cmkbE,p,Cheesy Meaty Pasta
+pasta,,coE,p,Cheesy Onion Pasta
+pasta,,citE,p,Cheesy Tomato
+pasta,,cpusoE,p,Cheesy Veggie Pasta
+pasta,,gkuiE,p,Chicken Pesto
+pasta,,rmE,p,Classic Spaghetti
+pasta,,wksE,p,Creamy Alfredo
+pasta,,wmkbuE,p,Creamy Meat Pasta
+pasta,,wpusoE,p,Creamy Veggie Pasta
+pasta,,psitE,p,Dry Veggie Pasta
+pasta,,rbpE,p,Hot Bacon Pasta
+pasta,,gmkbpusoitE,p,Manhattan Pesto
+pasta,,rmkbpusoE,p,Red Deluxe Pasta
+pasta,,rpitE,p,Red Pasta Rally
+pasta,,rpusoE,p,Red Veggie Pasta
+pasta,,rmbusE,p,Spaghetti Deluxe
+pasta,,gmE,p,Spaghetti Pesto
+pasta,,rbiE,p,Spicy Bacon Pasta
+pasta,,rmiE,p,Spicy Spaghetti
+pasta,,wkbpuiE,p,The Carbonara
+pasta,,mtE,p,The Dry Tomato
+pasta,,rmkbE,p,The Meaty Pasta
+pasta,,gsiE,p,Verde Pesto
+pasta_grill,12,rE,p,Cheese Pasta
+pasta_grill,12,rE,p,Cheesy Chicken Pasta
+pasta_grill,12,rE,p,Cheesy Deluxe Pasta
+pasta_grill,12,rE,p,Cheesy Meaty Pasta
+pasta_grill,12,rE,p,Cheesy Onion Pasta
+pasta_grill,12,rE,p,Cheesy Tomato
+pasta_grill,12,rE,p,Cheesy Veggie Pasta
+pasta_grill,12,rE,p,Chicken Pesto
+pasta_grill,12,rE,p,Classic Spaghetti
+pasta_grill,12,rE,p,Creamy Alfredo
+pasta_grill,12,rE,p,Creamy Meat Pasta
+pasta_grill,12,rE,p,Creamy Veggie Pasta
+pasta_grill,12,rE,p,Dry Veggie Pasta
+pasta_grill,12,rE,p,Hot Bacon Pasta
+pasta_grill,12,rE,p,Manhattan Pesto
+pasta_grill,12,rE,p,Red Deluxe Pasta
+pasta_grill,12,rE,p,Red Pasta Rally
+pasta_grill,12,rE,p,Red Veggie Pasta
+pasta_grill,12,rE,p,Spaghetti Deluxe
+pasta_grill,12,rE,p,Spaghetti Pesto
+pasta_grill,12,rE,p,Spicy Bacon Pasta
+pasta_grill,12,rE,p,Spicy Spaghetti
+pasta_grill,12,rE,p,The Carbonara
+pasta_grill,12,rE,p,The Dry Tomato
+pasta_grill,12,rE,p,The Meaty Pasta
+pasta_grill,12,rE,p,Verde Pesto
+pizza,10,gcuvnioE,r,All Veggie Pesto Pizza
+pizza,10,gcauE,r,Anchovy Pesto Pizza
+pizza,10,tcaE,r,Anchovy Pizza
+pizza,10,tcbuE,r,Bacon and Mushroom Pizza
+pizza,10,tcE,r,Cheese Pizza
+pizza,10,cE,r,Cheesy Bread
+pizza,10,gcE,r,Cheesy Pesto Pizza
+pizza,10,tauE,r,Dairy-Lite Pizza
+pizza,10,tcaunvE,r,Deluxe Anchovy Pizza
+pizza,10,tcpmbuvnE,r,Deluxe Pizza
+pizza,10,tcpmbhE,r,Extra Meat Lovers Pizza
+pizza,10,gcpuvnoE,r,Italian Pesto Pizza
+pizza,10,tcmuvnE,r,Italian Pizza
+pizza,10,gcpmbhE,r,Meat Lovers Pesto Pizza
+pizza,10,tcmE,r,Meat Pizza
+pizza,10,tcpmbE,r,Meatlovers Pizza
+pizza,10,tcpmbaE,r,Meaty Anchovy Pizza
+pizza,10,tcvnE,r,Olives and Onions Pizza
+pizza,10,tcpmE,r,P M Pizza
+pizza,10,tcpE,r,Pepperoni Pizza
+pizza,10,gcpE,r,Pesto Pepperoni Pizza
+pizza,10,gcbhunE,r,Piggy Pesto Pizza
+pizza,10,gchiE,r,Pineapple and Ham Pesto Pizza
+pizza,10,tchiE,r,Pineapple and Ham Pizza
+pizza,10,gcaphmbuvnioE,r,Super Deluxe Pesto Pizza
+pizza,10,tcpmbahuvniE,r,Super Surpreme Pizza
+pizza,10,tcuviE,r,Sweet Veggie P
+pizza,10,gcuviE,r,Sweet Veggie Pesto P
+pizza,10,tcpmbahoE,r,The All Meat Tomato Pizza
+pizza,10,tcahuE,r,The H A M Pizza
+pizza,10,tcpbhniE,r,The Hawaiian Pizza
+pizza,10,tcpbnE,r,The PCGB Pizza
+pizza,10,tcaoE,r,Tomato Anchovy Pizza
+pizza,10,tcioE,r,Tomato Pineapple Pizza
+pizza,10,tcpoE,r,Tomato Lovers Pizza
+pizza,10,tcuvnE,r,Veggie Pizza
+pretzel,,cE,p,Cinnamon Pretzel
+pretzel,,bE,p,The Buttery Curves
+pretzel,,sbE,p,The Classic Pretzel
+pretzel,,E,p,The Dry Twister
+pretzel,,sE,p,The Salty Knot
+pretzel,,bcE,p,The Sweet Twist
+robbery,,$run_robbery,,Robbery Witness Criminal Description
+rodents,,R.D.c.s.[0.5],,Work Ticket Rodents
+salad,,tcbomgE,p,A Thousand Flavors
+salad,,rcE,p,Cheesy Leaves
+salad,,coE,p,Cheesy Peppers
+salad,,vcE,p,Cheesy Vinaigrette
+salad,,rcbE,p,House Salad
+salad,,rcE,p,Kids Delight
+salad,,rcoE,p,Pepper Ranch
+salad,,rgE,p,Salad Verde
+salad,,cgE,p,The Big Salad
+salad,,mgE,p,The Dry Deluxe
+salad,,gE,p,The Dry Greens
+salad,,rcbomgE,p,The Manhattan
+salad,,rcboE,p,The Mix Salad
+salad,,vcbomgE,p,The Oil Bleu
+salad,,vmgE,p,The Oily Greens
+salad,,vcoE,p,The Oily Pepper
+salad,,tcoE,p,The Thousand Peppers
+salad,,tcgE,p,The Thousand Salad
+salad,,tcbE,p,Thousand House
+salad,,tcmE,p,Thousand Tomatoes
+salad,,tcbogE,p,Three Thousand
+salad,,rcmE,p,Tomato Ranch
+salad,,vcobmE,p,Vinaigrette Classic
+salad,,vcbE,p,Vinaigrette House
+shish_kabob,10,usoruskmE,r,American Kabob
+shish_kabob,10,ktkgkrktE,r,Chicken Kabob
+shish_kabob,10,tmgrtkgrE,r,Classic Kabob
+shish_kabob,10,sogtsogkE,r,Crazy Kabob
+shish_kabob,10,kgzukgzuE,r,Green Kabob
+shish_kabob,10,koptkopmE,r,Hawaiian Kabob
+shish_kabob,10,mokomgkoE,r,Juicy Kabob
+shish_kabob,10,ktgropskE,r,Kabob Platter
+shish_kabob,10,ptkmgropE,r,Kabob Sampler
+shish_kabob,10,tgputgpuE,r,Kabob Special
+shish_kabob,10,tmkgtmkrE,r,Kabobber
+shish_kabob,10,kgrompmpE,r,Kabomber
+shish_kabob,10,mktmkgmkE,r,Meaty Kabob
+shish_kabob,10,mzsmzumzE,r,Odessa Kabob
+shish_kabob,10,otokogorE,r,Onion Kabob
+shish_kabob,10,grtgrmgrE,r,Pepper Kabob
+shish_kabob,10,ptpmpkpoE,r,Pineapple Kabob
+shish_kabob,10,trmtrgtrE,r,Red Kabob
+shish_kabob,10,sposprsgE,r,Squash Kabob
+shish_kabob,10,ogrogrotE,r,Tangy Kabob
+shish_kabob,10,tmutkutzE,r,Tomato Kabob
+shish_kabob,10,mogrkogrE,r,Tower Kabob
+shish_kabob,10,uzoguzotE,r,Veggie Kabob
+shish_kabob,10,spmspkspE,r,Yellow Kabob
+soda,,UUUDiE,p,Jumbo Cola
+soda,,UUUDE,p,Jumbo Cola No Ice
+soda,,UUUDfE,p,Jumbo Cola No Ice w Flavor Blast
+soda,,UUUDifE,p,Jumbo Cola w Flavor Blast
+soda,,RRRRUUUDiE,p,Jumbo Diet
+soda,,RRRRUUUDifE,p,Jumbo Diet w Flavor Blast
+soda,,RRUUUDiE,p,Jumbo Grape
+soda,,RRUUUDifE,p,Jumbo Grape w Flavor Blast
+soda,,RUUUDiE,p,Jumbo Tea
+soda,,RUUUDifE,p,Jumbo Tea w Flavor Blast
+soda,,RRRUUUDiE,p,Jumbo Water
+soda,,RRRUUUDifE,p,Jumbo Water w Flavor Blast
+soda,,UUDiE,p,Large Cola
+soda,,UUDE,p,Large Cola No Ice
+soda,,UUDifE,p,Large Cola w Flavor Blast
+soda,,RRRRUUDiE,p,Large Diet
+soda,,RRRRUUDifE,p,Large Diet w Flavor Blast
+soda,,RRUUDiE,p,Large Grape
+soda,,RRUUDifE,p,Large Grape w Flavor Blast
+soda,,RUUDiE,p,Large Tea
+soda,,RRRUUDiE,p,Large Water
+soda,,UDiE,p,Medium Cola
+soda,,UDE,p,Medium Cola No Ice
+soda,,UDifE,p,Medium Cola w Flavor Blast
+soda,,RRRRUDiE,p,Medium Diet
+soda,,RRRRUDifE,p,Medium Diet w Flavor Blast
+soda,,RRUDiE,p,Medium Grape
+soda,,RRUDifE,p,Medium Grape w Flavor Blast
+soda,,RUDiE,p,Medium Tea
+soda,,RRRUDiE,p,Medium Water
+soda,,DiE,p,Small Cola
+soda,,DE,p,Small Cola No Ice
+soda,,DfE,p,Small Cola No Ice w Flavor Blast
+soda,,DifE,p,Small Cola w Flavor Blast
+soda,,RRRRDiE,p,Small Diet
+soda,,RRRRDifE,p,Small Diet w Flavor Blast
+soda,,RRDiE,p,Small Grape
+soda,,RRDifE,p,Small Grape w Flavor Blast
+soda,,RDiE,p,Small Tea
+soda,,RDifE,p,Small Tea w Flavor Blast
+soda,,RRRDiE,p,Small Water
+soda,,RRRDifE,p,Small Water w Flavor Blast
+sopapillas,,D[2.5].pE,p,Delicious Lite Sopapillas
+sopapillas,,D[2.5].psE,p,Delicious Sopapillas
+soup,14,kwsp.aD[0.05]*6 .lD[0.05]*6 .E,r,Baristobo Soup
+soup,14,sbc.aD[0.05]*6 .r.E,r,Broccoli Soup
+soup,14,kwu.yD[0.05]*6 .E,r,Chicken Noodle Soup
+soup,14,spbc.E,r,Creamy Potato
+soup,14,kmihpc.yD[0.05]*6 .g.E,r,Hearty Meat Soup
+soup,14,mibc.tD[0.05]*6 .zD[0.05]*6 .o.E,r,Italian Soup
+soup,14,kmiusb.yD[0.05]*6 .E,r,Louisiana Delight
+soup,14,isp.yD[0.05]*6 .eE,r,One Bean Soup
+soup,14,wus.tD[0.05]*6 .aD[0.05]*6 .yD[0.05]*6 .E,r,Soup du Jour
+soup,14,hwc.lD[0.05]*6 .zD[0.05]*6 .go.E,r,Suino Stew
+soup,14,tD[0.05]*6 .aD[0.05]*6 .yD[0.05]*6 .lD[0.05]*6 .d.E,r,Vegetable Soup
+steak,20,sjjbbE,r,Baconesque
+steak,20,sjjcE,r,Citrus Steak
+steak,20,sssjE,r,Classic Steak
+steak,20,sshhjjjjE,r,Hickory Steak
+steak,20,sdjccE,r,Smokey Orange Steak
+steak,20,sjppbbE,r,Spicy Baconesque
+steak,20,ssdpppjjE,r,Spicy Smokey Steak
+steak,20,sppppjjE,r,Spicy Steak
+steak,20,sppE,r,The Dry Spicy Steak
+steak,20,ssjjppbbddhhE,r,West Texas Steak
+sushi,,tummyyyyE,p,Bail Tray
+sushi,,rrttssmyE,p,Blue Oil Delight
+sushi,,errruusmE,p,Chomper Plate
+sushi,,uuummmygE,p,Crunchy Plate
+sushi,,eerrtussE,p,Delight Platter
+sushi,,eettuussE,p,East Sampler
+sushi,,eeeeertuE,p,Ebi Special
+sushi,,ertusmygE,p,Emperor Special
+sushi,,eeettsssE,p,ETS Tray
+sushi,,erttusssE,p,Fives Delight
+sushi,,smmyygggE,p,Fortune
+sushi,,usmyggggE,p,Golden Tray
+sushi,,eerrtummE,p,Gourmet Platter
+sushi,,ertussmyE,p,Gourmet Sampler
+sushi,,uusmmmmmE,p,Mackerel Special
+sushi,,eerrrttuE,p,Mixed Delicious
+sushi,,eeerrtuuE,p,Ocean Plate
+sushi,,errtuussE,p,Plate of Great
+sushi,,eettssmmE,p,Rice Sampler
+sushi,,eeerrrrtE,p,Roe Special
+sushi,,tttsyyygE,p,Royal Debut
+sushi,,erusssssE,p,Salmon Special
+sushi,,eeetuuyyE,p,Sea of Oceans
+sushi,,errtttuuE,p,Sea Spirit
+sushi,,rrrttussE,p,Shogun Plate
+sushi,,eerummygE,p,Slam Platter
+sushi,,eertusmmE,p,Special Sampler
+sushi,,eerrttuuE,p,Standard Sampler
+sushi,,etuusmmmE,p,The Mix Sushi
+sushi,,eeetsgggE,p,The Mysteries
+sushi,,ertttttuE,p,Toro Special
+sushi,,rrruumygE,p,Tray Platter Plate
+sushi,,ertuuuuuE,p,Tuna Platter
+sushi,,rmygggggE,p,Unagi Special
+sushi,,tsmyyyyyE,p,Yellowtail Special
+sushi,,rruusyyyE,p,YUM Tray
+toilet,,D.s.[0.5],,Work Ticket Clean
+trash,,$run_trash,,Work Ticket Trash
+wine,,"w U[0.03,0.02]*30 E",p,Casu Marzu
+wine,,"wwww U[0.03,0.02]*30 E",p,Deckard Vineyards
+wine,,"www U[0.03,0.02]*30 E",p,Elk
+wine,,"U[0.03,0.02]*30 E",p,Le Cheap Valu-Wine
+wine,,"ww U[0.03,0.02]*30 E",p,Serpent Beard
