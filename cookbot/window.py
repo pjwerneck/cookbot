@@ -31,6 +31,10 @@ RECIPE_TEXT = (296, 594, 1027, 670)
 
 TICKET_NO = (912, 566, 1009, 589)
 
+DISHES = (873, 107, 1124, 223)
+
+TRASH = (873, 107, 1124, 223)
+
 CANARY_PX = (66, 679)
 
 ROSTER = [(50, 110),
@@ -65,6 +69,8 @@ class BaseWindow(object):
         self._name = None
         self._text = None
         self._ticket_no = None
+        self._dishes = None
+        self._trash = None
         self._orders = None
 
         self.k = PyKeyboard()
@@ -111,6 +117,8 @@ class BaseWindow(object):
         self._text = None
         self._orders = None
         self._ticket_no = None
+        self._dishes = None
+        self._trash = None
         self._active = None
 
     def get_name(self):
@@ -131,6 +139,12 @@ class BaseWindow(object):
                                 contrast=True))
         except ValueError:
             return None
+
+    def get_dishes(self):
+        return self._img.crop(DISHES)
+
+    def get_trash(self):
+        return self._img.crop(TRASH)
 
     def get_orders(self):
         # returns the complete status for each slot
@@ -206,7 +220,7 @@ class BaseWindow(object):
     def at_grill(self):
         # true if at the grill/boiler screen
         p = self._img.getpixel((394, 278))
-        return p in {(134, 134, 132), (106, 106, 104), (95, 94, 100), (85, 83, 89)}
+        return p in {(134, 134, 132), (106, 106, 104), (95, 94, 100), (85, 83, 89), (80, 80, 83), (68, 67, 72)}
 
     def key(self, k, d=0.05):
         self.k.press_key(k)

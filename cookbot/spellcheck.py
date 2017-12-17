@@ -36,6 +36,7 @@ class SpellChecker(object):
         self.db = db
         self._opts = opts
 
+        self.NAMES = self.db.get_names()
         self.WORDS = self.db.get_words()
         self.REPLACEMENTS = self.db.get_replacements()
 
@@ -53,43 +54,41 @@ class SpellChecker(object):
         return self.known(words, name)
 
     def common_error(self, word, name):
-        words = self.WORDS
         if name:
-            words = [word for word in words if word[0].isupper()]
-        return set(difflib.get_close_matches(word, words, cutoff=0.7))
+            return set(difflib.get_close_matches(word.replace(" ","-"), self.NAMES))
+        return set(difflib.get_close_matches(word, self.WORDS, cutoff=0.7))
 
     def known(self, words, name):
         if name:
-            words = [word for word in words if word[0].isupper() or word == "and" or word == "du" or word == "of"]
+            return [word for word in words if word in self.NAMES]
         return [word for word in words if word.lower() in self.WORDS]
 
     def correct(self, word, name):
-        if len(word) == 1:
+        if not name and len(word) == 1:
             # XXX weird case
             if word == 'l':
                 word = '1'
 
-            if word == 'z':
+            if word == 'Z':
                 word = '2'
 
-            if word == 'R':
-                word = 'P'
-
-            if word == 'r':
-                word = 'p'
-
             return word
 
-        if word.isdigit():
+        if not name and word.isdigit(): #ticket number
             return word
 
-        candidates = self.known([word], name) or self.ocr_error(word, name) or self.common_error(word, name)# or {word}
+        if name:
+            if word == 'The Mix':
+                return word
+            candidates = self.common_error(word, name)
+        else:
+            candidates = self.known([word], name) or self.ocr_error(word, name) or self.common_error(word, name)# or {word}
         if not candidates:
             raise RuntimeError("No candidates for: %r" % word)
 
         return sorted(candidates, key=lambda candidate: distance.jaccard(word, candidate))[0]
 
-    def tokenize(self, text):
+    def tokenize(self, text, name):
         # remove useless punctuation
         text = text.translate({ord(char): ord(' ') for char in '!"#$%&\'*+,./:;<=>?@[\\]_{|}'})
 
@@ -97,16 +96,16 @@ class SpellChecker(object):
         text = remove_balanced_parenthesis(text)
 
         # split
+        if name:
+            return [text.strip()]
         return text.split()
 
 
     def __call__(self, text, name=False):
-        words = self.tokenize(text)
+        words = self.tokenize(text, name)
 
         words = [self.correct(w, name) for w in words]
 
         text = u' '.join(words)
 
         return text
-
-

@@ -65,7 +65,7 @@ burger,,mlE,p,The Lite Delight
 burger,,mE,p,The Lonely Patty
 burger,,kmbE,p,The Meat Lovers
 burger,,mcsE,p,The MELT
-burger,,kmlctE,p,The MIX Burger
+burger,,kmlctE,p,The MIX
 burger,,mlbctE,p,The Original
 burger,,mmbpE,p,The P-D
 burger,,mcpE,p,The Pickler
@@ -105,7 +105,7 @@ burger_grill,9,mE,p,The Lite Delight
 burger_grill,9,mE,p,The Lonely Patty
 burger_grill,9,kmE,p,The Meat Lovers
 burger_grill,9,mE,p,The MELT
-burger_grill,9,kmE,p,The MIX Burger
+burger_grill,9,kmE,p,The MIX
 burger_grill,9,mE,p,The Original
 burger_grill,9,mmE,p,The P D
 burger_grill,9,mE,p,The Pickler
@@ -589,7 +589,7 @@ sushi,,rrruumygE,p,Tray Platter Plate
 sushi,,ertuuuuuE,p,Tuna Platter
 sushi,,rmygggggE,p,Unagi Special
 sushi,,tsmyyyyyE,p,Yellowtail Special
-sushi,,rruusyyyE,p,Yum Tray
+sushi,,rruusyyyE,p,YUM Tray
 toilet,,D.s.[0.5],,Work Ticket Clean
 trash,,$run_trash,,Work Ticket Trash
 wine,,"w U[0.03,0.02]*30 E",p,Casu Marzu

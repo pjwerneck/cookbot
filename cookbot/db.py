@@ -30,7 +30,7 @@ class CookDB(object):
             ds.csv = f.read()
 
         columns = ', '.join(ds.headers)
-        insert = "insert into %s (%s) values (%s)" % (table, columns, ', '.join(['?'] * len(ds.headers)))
+        insert = "INSERT INTO %s (%s) VALUES (%s)" % (table, columns, ', '.join(['?'] * len(ds.headers)))
 
         self.db.execute("CREATE TABLE %s (%s)" % (table, columns))
 
@@ -61,6 +61,9 @@ class CookDB(object):
     def get_finished_at(self, food):
         return self.query_one('SELECT finished_at FROM recipes WHERE food = ? LIMIT 1', (food,))[0]
 
+    def get_names(self):
+        return set(x[0] for x in self.db.execute("select name from recipes"))
+
     def get_words(self):
         return set(x[0] for x in self.db.execute("select word from words"))
 
@@ -74,4 +77,3 @@ class CookDB(object):
                 d[old] = {new}
 
         return d
-

@@ -70,12 +70,9 @@ class CookBot(object):
 
     def get_food(self):
         # XXX: ugly hack needed to circumvent equal names for some foods
-        if self.window.name == 'The Mix' or  self.window.name == 'The MIX':
+        if self.window.name.strip() == 'The Mix':
 
-            if 'meat' in self.window.text.lower():
-                self.window._name += ' Burger'
-
-            elif 'ranch' in self.window.text.lower():
+            if 'ranch' in self.window.text.lower():
                 self.window._name += ' Salad'
 
             elif 'mackerel' in self.window.text.lower():
@@ -155,7 +152,7 @@ class CookBot(object):
             return
 
         # don't accept new order within 100ms
-        if time.time() - self._accepted < 0.5:
+        if time.time() - self._accepted < 0.1:
             print 'WAITING'
             return
 
@@ -171,7 +168,7 @@ class CookBot(object):
                 self._waiting.setdefault(n, time.time())
 
             for n, active, status, x in new_orders:
-                if time.time() - self._waiting[n] < 0.2:
+                if time.time() - self._waiting[n] < 0.1:
                     continue
 
                 self.accept(n)
@@ -181,8 +178,11 @@ class CookBot(object):
     def prepare(self):
         log_entry = self._order_log.get(self.window.name, (0, None))
 
+        ticket = self.window.ticket_no
+        logging.info("Ticket: %s" % ticket)
+
         if time.time() - log_entry[0] < 1:
-            if log_entry[1] == self.window.ticket_no:
+            if log_entry[1] == ticket:
                 logging.warning("Same ticket number. Waiting confirmation...")
                 return
 
@@ -201,7 +201,7 @@ class CookBot(object):
         if recipe:
             self.execute_recipe(recipe)
 
-        self._order_log[self.window.name] = (time.time(), self.window.ticket_no)
+        self._order_log[recipe] = (time.time(), ticket)
 
     def check_result(self, w):
         if not self._opts['test_recipes']:
@@ -232,7 +232,7 @@ class CookBot(object):
 
         text = text.lower().translate({ord(char): ord(u' ') for char in string.punctuation})
 
-        logging.info("Robbery: %r" % text)
+        logging.debug("Robbery: %r" % text)
         tokens = text.split()
 
         nouns = {'hair': {'bald': 'h', 'sexy': 'hh', 'spiked': 'hhh', 'poofy': 'hhhh'},
@@ -286,42 +286,27 @@ class CookBot(object):
         return s
 
     def run_dishes(self):
-        return 'LRLRU' * 6
-
-        bbox = (873, 107, 1124, 223)
-
         while self.window.at_kitchen():
-            im = self.window._img.crop(bbox)
+            im = self.window.get_dishes()
             h = int(origin_dist(im, (157, 24, 24)))
-
-            if h == 54644:
+            if h <= 60000:
                 self.window.key(self.window.k.left_key)
-
-            elif h == 312328:
+            elif h >= 240000:
                 self.window.key(self.window.k.right_key)
-
-            elif h == 126311:
+            elif h > 0:
                 self.window.key(self.window.k.up_key)
 
             self.window.refresh()
 
     def run_trash(self):
-        return ('U.[0.2]R.[0.2]' * 5) + 's'
-
-
-        bbox = (873, 107, 1124, 223)
-
         while self.window.at_kitchen():
-            im = self.window._img.crop(bbox)
+            im = self.window.get_trash()
             h = int(origin_dist(im, (157, 24, 24)))
-
-            if h == 54862:
+            if h <= 60000:
                 self.window.key(self.window.k.up_key)
-
-            elif h == 312328:
+            elif h >= 240000:
                 self.window.key(self.window.k.right_key)
-
-            elif h == 136091:
+            elif h > 0:
                 self.window.key('s')
 
             self.window.refresh()

@@ -34,6 +34,10 @@ class OCR(object):
         self.spellchecker = SpellChecker(db, **opts)
 
         self.cache = sqlite3.connect('data/OCR_CACHE.db')
+        self.cache.execute("DELETE FROM cache")
+        self.cache.commit()
+        self.cache.execute("VACUUM cache")
+        self.cache.commit()
 
     def _tesseract(self, im, mode='text', lang='eng', whitelist='', blacklist='', contrast=False, **opts):
         if contrast:
@@ -58,7 +62,7 @@ class OCR(object):
         h = histx(im)
         text = self.get_from_cache(h)
         if text is not None:
-            logging.info("Cache hit (%r): %r" % (h, text))
+            logging.debug("Cache hit (%r): %r" % (h, text))
             return text
 
         text = self._tesseract(im, **kwargs)
